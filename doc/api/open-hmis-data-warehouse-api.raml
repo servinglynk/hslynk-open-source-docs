@@ -1,0 +1,1421 @@
+#%RAML 0.8
+title: Authorization
+version: 1.0.0
+baseUri: http://hmisdomain/authorizationservice/rest/oAuth
+mediaType: application/json
+/authorize:
+  displayName:  Authorization Endpoint
+  description: |
+    This endpoint is used by the client to obtain authorization from the HMIS  user via user-agent (typically a web browser) redirection.
+    It handles active session lookup (via cookie), authenticating the user, and user consent.
+  get:
+    description: |
+        The authorization service validates the request to ensure all required parameters are present and valid. If the request is valid, the authorization service authenticates the Hmis  user and obtains an authorization decision/consent (by asking the HMIS  user).
+        When a decision is established, the authorization service directs the user-agent to the provided client redirection URI using an HTTP redirection response
+    queryParameters:
+      response_type:
+      client_id:
+      redirect_uri:
+      state:
+      access_type:
+      approval_prompt:
+    responses:
+      200:
+        description: |
+          If the Hmis user grants the access request, the authorization service issues an authorization code and delivers it to the client by adding the following parameters to the query component of the redirection URI using the "application/x-www-form-urlencoded" format.
+        body:
+          example : |
+              Location: https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&state=xyz
+      404 :
+        description: |
+          If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client identifier is missing or invalid, the authorization service will inform the HMIS  user of the error, and will not automatically redirect the user-agent to the invalid redirection URI.
+          If the HMIS  user denies the access request or if the request fails for reasons other than a missing or invalid redirection URI, the authorization service informs the client by adding the following parameters to the query component of the redirection URI using the "application/x-www-form-urlencoded" format:
+            <table class="confluenceTable tablesorter" border=1>
+              
+             <thead><tr class="sortableHeader"> 
+                <th class="confluenceTh sortableHeader" data-column="0"><div class="tablesorter-header-inner"><p> Parameter Name </p></div></th> 
+                <th class="confluenceTh sortableHeader" data-column="1"><div class="tablesorter-header-inner"><p> Description / Parameter Value </p></div></th> 
+                <th class="confluenceTh sortableHeader" data-column="2"><div class="tablesorter-header-inner"><p> Required? </p></div></th> 
+               </tr></thead><tbody> 
+                
+               <tr> 
+                <td class="confluenceTd"><p> error </p></td> 
+                <td class="confluenceTd"><p> A single error code from the following: <br class="atl-forced-newline"> <strong>invalid_request</strong> <br class="atl-forced-newline"> The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed. <br class="atl-forced-newline"> <strong>unauthorized_client</strong> <br class="atl-forced-newline"> The client is not authorized to request an authorization code using this method. <br class="atl-forced-newline"> <strong>access_denied</strong> <br class="atl-forced-newline"> The HMIS  user or authorization service denied the request. <br class="atl-forced-newline"> <strong>unsupported_response_type</strong> <br class="atl-forced-newline"> The authorization service does not support obtaining an authorization code using this method. <br class="atl-forced-newline"> <strong>server_error</strong> <br class="atl-forced-newline"> The authorization service encountered an unexpected condition which prevented it from fulfilling the request. <br class="atl-forced-newline"> <strong>temporarily_unavailable</strong> <br class="atl-forced-newline"> The authorization service is currently unable to handle the request due to a temporary overloading or maintenance of the server. </p></td> 
+                <td class="confluenceTd"><p> Yes </p></td> 
+               </tr> 
+               <tr> 
+                <td class="confluenceTd"><p> error_description </p></td> 
+                <td class="confluenceTd"><p> A human-readable UTF-8 encoded text providing additional information, used to assist the client developer in understanding the error that occurred. </p></td> 
+                <td class="confluenceTd"><p> No </p></td> 
+               </tr> 
+               <tr> 
+                <td class="confluenceTd"><p> state </p></td> 
+                <td class="confluenceTd"><p> The exact value received from the client. </p></td> 
+                <td class="confluenceTd"><p> Yes if a <strong>state</strong> parameter was included in the authorization request. </p></td> 
+               </tr> 
+              </tbody></table>            
+/token:
+  displayName: Token Endpoint
+  description: |
+    The token endpoint is used by the client to obtain an access token by presenting one of the following:
+    1) authorization code (obtained thru Authorization Endpoint using the Authorization Code Grant Flow)
+    2) refresh token
+    The token endpoint is used with every authorization flow except for the implicit grant flow (since an access token is issued directly).
+  post:
+    description: |
+      The client makes a request to the token endpoint by adding the following parameters using the "application/x-www-form-urlencoded" format in the HTTP request entity-body
+      <table class="confluenceTable tablesorter">
+  
+       <thead><tr class="sortableHeader"> 
+          <th class="confluenceTh sortableHeader" data-column="0"><div class="tablesorter-header-inner"><p> Parameter Name </p></div></th> 
+          <th class="confluenceTh sortableHeader" data-column="1"><div class="tablesorter-header-inner"><p> Description / Parameter Value </p></div></th> 
+          <th class="confluenceTh sortableHeader" data-column="2"><div class="tablesorter-header-inner"><p> Required? </p></div></th> 
+         </tr></thead><tbody> 
+          
+         <tr> 
+          <td class="confluenceTd"><p> grant_type </p></td> 
+          <td class="confluenceTd"><p> As defined in the OAuth 2.0 specification, the value of this parameter must be set to <strong>authorization_code</strong>. </p></td> 
+          <td class="confluenceTd"><p> Yes </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> code </p></td> 
+          <td class="confluenceTd"><p> The authorization code received in the authorization response</a>. </p></td> 
+          <td class="confluenceTd"><p> Yes </p></td> 
+         </tr> 
+         <tr> 
+          <td class="confluenceTd"><p> redirect_uri </p></td> 
+          <td class="confluenceTd"><p> The <strong>redirect_uri</strong> parameter that was included in the authorization request as described in Authorization Code Grant Flow - Authorization Request</a>, and their values MUST be identical. </p></td> 
+          <td class="confluenceTd"><p> Yes </p></td> 
+         </tr> 
+        </tbody></table>
+          The authorization service does the following:
+          Authenticate the client and ensure the authorization code was issued to the authenticated client.
+          Verify that the authorization code is valid.
+          Ensure that the specified redirect_uri parameter value is same as the redirect_uri parameter value included in the initial authorization request as described in Authorization Code Grant Flow - Authorization Request.
+    body:
+      example : |
+    responses:
+      200 :
+        description: |
+          If the access token request is valid and authorized, the authorization service issues an access token and optional refresh token, and constructs the response by adding the following parameters to the entity body of the HTTP response with a 200 (OK) status code
+        body:
+          example : |
+              {
+                "access_token":"2YotnFZFEjr1zCsicMWpAA",
+                "token_type":"Bearer",
+                "expires_in":3600,
+                "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA"
+              }
+      400:
+        description: |
+          The authorization service responds with an HTTP 400 (Bad Request) status code and includes the following parameters with the response
+             <table class="confluenceTable tablesorter">
+              <thead><tr class="sortableHeader"> 
+                <th class="confluenceTh sortableHeader" data-column="0"><div class="tablesorter-header-inner"><p> Parameter Name </p></div></th> 
+                <th class="confluenceTh sortableHeader" data-column="1"><div class="tablesorter-header-inner"><p> Description / Parameter Value </p></div></th> 
+                <th class="confluenceTh sortableHeader" data-column="2"><div class="tablesorter-header-inner"><p> Required? </p></div></th> 
+               </tr></thead><tbody> 
+                
+               <tr> 
+                <td class="confluenceTd"><p> error </p></td> 
+                <td class="confluenceTd"><p> A single error code from the following: <br class="atl-forced-newline">     <strong>invalid_request</strong> <br class="atl-forced-newline"> The request is missing a required parameter, includes an unsupported parameter value (other than grant type), repeats a parameter, includes multiple credentials, utilizes more than one mechanism for authenticating the client, or is otherwise malformed. <br class="atl-forced-newline"> <strong>invalid_client</strong> <br class="atl-forced-newline"> Client authentication failed (e.g. unknown client, no client authentication included, or unsupported authentication method). <br class="atl-forced-newline"> <strong>invalid_grant</strong> <br class="atl-forced-newline"> The provided authorization grant (e.g. authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client. This error code is also returned if the account is disabled. <br class="atl-forced-newline"> <strong>unauthorized_client</strong> <br class="atl-forced-newline"> The authenticated client is not authorized to use this authorization grant type. <br class="atl-forced-newline"> <strong>unsupported_grant_type</strong> <br class="atl-forced-newline"> The authorization grant type is not supported by the authorization service. <br class="atl-forced-newline"> <strong>server_error</strong> <br class="atl-forced-newline"> The authorization service encountered an unexpected condition which prevented it from fulfilling the request. <br class="atl-forced-newline"> <strong>temporarily_unavailable</strong> <br class="atl-forced-newline"> The authorization service is currently unable to handle the request due to a temporary overloading or maintenance of the server. </p></td> 
+                <td class="confluenceTd"><p> Yes </p></td> 
+               </tr> 
+               <tr> 
+                <td class="confluenceTd"><p> error_description </p></td> 
+                <td class="confluenceTd"><p> A human-readable UTF-8 encoded text providing additional information, used to assist the client developer in understanding the error that occurred. </p></td> 
+                <td class="confluenceTd"><p> No </p></td> 
+               </tr> 
+              </tbody></table>
+        body:
+          example : |
+            { "error":"invalid_request" }
+/revoke:
+  displayName: Revocation Request
+  description: |
+      The revocation endpoint is used by the client to revoke one of the following tokens:
+      1) access token
+      2) refresh token - (i.e. refresh token and all related access tokens)
+      3) consent token - (i.e. consent token and all related refresh tokens and access tokens)
+      Developers may use this feature when configuring a Log Out button in their application.
+  post:
+    description: |
+      The revocation endpoint is used by the client to revoke one of the following tokens:
+      1) access token
+      2) refresh token - (i.e. refresh token and all related access tokens)
+      3) consent token - (i.e. consent token and all related refresh tokens and access tokens)
+      Developers may use this feature when configuring a Log Out button in their application.
+    body:
+        example : |
+          revoking an access token : 
+              access_token=SplxlOBeZQQYbYS6WxSbIA
+          revoking a refresh token) : 
+             refresh_token=khgfkagasgurnjg434
+          revoking a consent token
+             consent_token=GLKfkfnafan349dljl
+    responses:
+      200:
+        body:
+         example : |
+          revoking an access token : 
+             { "access_token"="SplxlOBeZQQYbYS6WxSbIA" }
+          revoking a refresh token) : 
+             {"refresh_token"="khgfkagasgurnjg434" }
+          revoking a consent token
+             { "consent_token"="GLKfkfnafan349dljl" }
+      400: 
+          description : |
+          body:
+            example : |
+              { "error":"invalid_request" }
+            
+/clients/{clientId}/consentmessages:
+  displayName: Consent Message  
+  get:
+    description: Gets a list of consent messages for the specified client.
+    responses:
+      200:
+        body:
+          example : |
+            {
+              "oAuthMessageGroups": {
+                "oAuthMessageGroup": [
+                  {
+                    "consentMessage": "Read your basic account information",
+                    "detailedConsentMessageExists": "false",
+                    "oAuthMessageItems": {
+                      "oAuthMessageItem": {
+                        "consentMessage": "Read your account id, first name, middle name and last name",
+                        "detailedConsentMessageExists": "false"
+                      }
+                    }
+                  },
+                  {
+                    "consentMessage": "read information associated with your account",
+                    "oAuthMessageItems": {
+                      "oAuthMessageItem": [
+                        {
+                          "consentMessage": "Sample consent message",
+                          "detailedConsentMessageExists": "false"
+                        },
+                        {
+                          "consentMessage": "sample consent message",
+                          "detailedConsentMessageExists": "false"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }     
+      404 :
+        body:
+          example : |
+            {
+              "errors": {
+                "error": {
+                  "code": "CLIENT_NOT_FOUND",
+                  "message": "the specified client is not found"
+                }
+              }
+            } 
+/clients/{clientId}/detailedconsentmessages:     
+  get:
+    description:
+      Gets a list of detailed consent messages for the specified client.
+    responses:
+      200:
+        body:
+          example: |
+                  {
+                    "oAuthMessageGroups": {
+                      "oAuthMessageGroup": {
+                        "consentMessage": "Consent message for the API",
+                        "detailedConsentMessage": "some detailed consent message",
+                        "oAuthMessageItems": {
+                          "oAuthMessageItem": { "detailedConsentMessage": "This is the detailed consent message" }
+                        }
+                      }
+                    }
+                  }
+      404:
+        body:
+          example: |
+                    {
+                      "errors": {
+                        "error": {
+                          "code": "CLIENT_NOT_FOUND",
+                          "message": "the specified client (trusted App) is not found"
+                        }
+                      }
+                    }              
+/developercompanies:
+  displayName:  Get all developer companies
+  description: |
+         Gets ( reads or retrieves) all developer companies.It filters the result based on the request parameters (optional) 'trustedApp.status' or 'service.status'. The user must have "READ_ANY_DEVELOPER_COMPANY" permission to use this API.
+  get:
+    description: |
+         Gets ( reads or retrieves) all developer companies.It filters the result based on the request parameters (optional) 'trustedApp.status' or 'service.status'. The user must have "READ_ANY_DEVELOPER_COMPANY" permission to use this API.
+    
+    responses :
+      200:
+        body :
+          example : |
+                      {
+                        "developerCompanyList": {
+                          "paginationResult": {
+                            "startIndex": "0",
+                            "itemsReturned": "2",
+                            "totalItems": "16"
+                          },
+                          "developerCompanies": {
+                            "developerCompany": [
+                              {
+                                "developerCompanyId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+                                "name": "Amazing Inc.",
+                                "domain": "www.hmis.com",
+                                "owner": {
+                                  "username": "username@gmail.com",
+                                  "firstName": "firstname",
+                                  "lastName": "lastname"
+                                }
+                              },
+                              {
+                                "developerCompanyId": "5D94CEC6A868-532D-4D59-B397-AA8F9FD9",
+                                "name": "HMIS.",
+                                "domain": "www.hmis.com",
+                                "owner": {
+                                  "username": "username@gmail.com",
+                                  "firstName": "firstname",
+                                  "lastName": "lastname"
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+      401 :
+        body :
+          example : |
+                  {
+                    "errors": {
+                      "error": {
+                        "code": "INVALID_SESSION_TOKEN",
+                        "message": "The specified session/access token is not valid or has expired."
+                      }
+                    }
+                  }
+  post:
+    description : |
+                  It creates a new developer company with the specified account as the owner/admin. It performs the following logic:
+                  <ul>
+                    <li>If a CCC account already exists with the specified username (email address):</li>
+                    <li>Create a new developer company.-</li>
+                    <li>Associate the existing CCC account as the owner/admin of the company.</li>
+                    <li>If a CCC account does NOT exist with the specified username (email address)
+                      <ul><li>  Create a new CCC account (in "ACTIVE" state) with the specified username (email address), first name and last name. The password for the account it auto-generated.</li>
+                        <li>Create a new developer company.</li>
+                        <li>Associate the newly created account as the owner/admin of the company.</li>
+                        <li>Send out the password reset email for the newly created CCC account.</li> </ul>
+                    </li>
+                  </ul>
+    body:
+      example : |
+                    {
+                    "developerCompany": {
+                      "name": "Amazing Inc.",
+                      "domain": "www.amazing.com",
+                      "logoUrl": "Company Logo URL ",
+                      "companySize": "100",
+                      "appExperience": "Mobile apps",
+                      "companySkillSet": "skill set",
+                      "appPlatforms": "iOS,Windows",
+                      "expectedAppFinishDate": "2013-03-26",
+                      "contactEmail": "info@amazing.com",
+                      "owner": {
+                        "username": "SuryaYadavallitest1@gmail.com",
+                        "firstName": "Surya",
+                        "lastName": "Yadavalli"
+                      }
+                    }
+    responses :
+      200:
+        body :
+          example : |
+                {  "developerCompany": { "developerCompanyId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868" } }
+      400:
+        body:
+          example : |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "ACCESS_DENIED",
+                      "message": "The developer company could not be created because the trustedApp submitting the request was not authorized to do so."
+                    }
+                  }
+                }
+
+                {
+                  "errors": {
+                    "error": {
+                      "code": "MISSING_PARAMETER",
+                      "message": "Some of the required element/query-parameter/header values are not specified (or missing) in the request."
+                    }
+                  }
+                }
+      403:
+        body :
+          example : |
+                  {
+                    "errors": {
+                      "error": {
+                        "code": "INVALID_CLIENT_TYPE",
+                        "message": "The trustedApp type ID is not valid."
+                      }
+                    }
+                  }
+                  
+                                    {
+                    "errors": {
+                      "error": {
+                        "code": "ACCESS_DENIED",
+                        "message": "The developer company could not be created because the trustedApp submitting the request was not authorized to do so."
+                      }
+                    }
+                  }
+
+      500:
+        body :
+          example : |
+                  {
+                    "errors": {
+                      "error": {
+                        "code": "UNKNOWN",
+                        "message": "An internal service/server error occurred. (e.g. database is down, etc.)."
+                      }
+                    }
+                  }
+/developercompanies/{developerCompanyId}:
+  displayName:  Update a developer Company
+  description: |
+      Updates a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can update that developer company.
+  put:
+    description: |
+      Updates a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can update that developer company.
+    body:
+      example: |
+                {
+                  "developerCompany": {
+                    "domain": "www.amazing.com",
+                    "logoUrl": "Company Logo URL ",
+                    "companySize": "100",
+                    "appExperience": "Mobile apps",
+                    "companySkillSet": "skill set",
+                    "appPlatforms": "iOS,Windows",
+                    "expectedAppFinishDate": "2013-03-26",
+                    "contactEmail": "info@amazing.com"
+                  }
+                }
+    responses:
+      200:
+        body:
+          example : |
+                  {
+                    "developerCompany": {
+                      "developerCompanyId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+                      "name": "Amazing Inc.",
+                      "domain": "www.amazing.com"
+                    }
+                  }
+      404:
+        body:
+          example : |
+              {
+                "errors": {
+                  "error": {
+                    "code": "DEVELOPER_COMPANY_NOT_FOUND",
+                    "message": "A developer company with the specified developerCompanyId is not found."
+                  }
+                }
+              }
+/developercompanies/{developercompanyId}/approvaldecision:  
+  description: |
+      It approves or rejects a developer company. If the developer company is approved the status of the developer company is changed to ACTIVE and if the developer company is rejected the status of the developer company is changed to REJECTED. An email is sent to the owner of the developer company with the approval decision.
+      A developer company can be approved or rejected only if its current status is SUBMITTED.
+  post:
+    description: |
+      It approves or rejects a developer company. If the developer company is approved the status of the developer company is changed to ACTIVE and if the developer company is rejected the status of the developer company is changed to REJECTED. An email is sent to the owner of the developer company with the approval decision.
+      A developer company can be approved or rejected only if its current status is SUBMITTED.
+    body:
+      example :  |
+                {
+                  "developerCompanyStatus": {
+                    "status": "ACTIVE",
+                    "comment": "service has been approved"
+                  }
+                }
+    responses:
+      200:
+        body:
+          example : |
+                {  "developerCompanyStatus": "  " }
+      404:
+        body:
+          example : |
+              {
+                "errors": {
+                  "error": {
+                    "code": "DEVELOPER_COMPANY_NOT_FOUND",
+                    "message": "A developer company with the specified developerCompanyId is not found."
+                  }
+                }
+              }
+      403:
+        body:
+          example : |
+              {
+                "errors": {
+                  "error": {
+                    "code": "ILLEGAL_STATE",
+                    "message": "The developer company can not be approved or rejected because its current status is not SUBMITTED."
+                  }
+                }
+              }           
+/developercompanies/{developerCompanyId}/accounts:
+  description: |
+      Gets (aka reads or retrieves) all accounts associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+  get:
+    description: |
+      Gets (aka reads or retrieves) all accounts associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    responses:
+      200:
+        body:
+          example : |
+                {
+                  "developerCompanyAccounts": {
+                    "developerCompanyAccount": [
+                      {
+                        "account": {
+                          "accountId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+                          "username": "SuryaYadavallitest1@gmail.com",
+                          "firstName": "Surya",
+                          "lastName": "Yadavalli",
+                          "middleName": "P"
+                        },
+                        "role": "ADMIN",
+                        "owner": "true"
+                      },
+                      {
+                        "account": {
+                          "accountId": "46B0C97E-E8AB-4259-A299-16A3B974D6F0",
+                          "username": "surya.yadavalli@gmail.com",
+                          "firstName": "Surya",
+                          "lastName": "Yadavalli",
+                          "middleName": "L",
+                          "alias": "Surya K"
+                        },
+                        "role": "BASIC",
+                        "owner": "false"
+                      }
+                    ]
+                  }
+                }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "INVALID_SESSION_TOKEN",
+                  "message": "The specified session/access token is not valid or has expired."
+                }
+              }
+            }             
+  post:
+    description: |
+      It associates an account with a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    body:
+      example: |
+                {
+                  "developerCompanyAccount": {
+                    "account": { "username": "xyz@gmail.com" },
+                    "role": "BASIC"
+                  }
+                }
+    responses:
+      200:
+        body:
+          example : |
+                 {  "developerCompanyAccount": " " }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "DEVELOPER_COMPANY_NOT_FOUND",
+                  "message": "The developer company with the specified developerCompanyID is not found."
+                }
+              }
+            } 
+
+            {
+              "errors": {
+                "error": {
+                  "code": "ACCOUNT_NOT_FOUND",
+                  "message": "The account with the specified username is not found."
+                }
+              }
+            } 
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "DEVELOPER_COMPANY_ACCOUNT_ALREADY_EXISTS",
+                  "message": "The specified account is already associated with the specified developer company."
+                }
+              }
+            }       
+/developercompanies/{developerCompanyId}/accounts/{username}:
+  description: |
+      Dissociates an account from a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+      The {developerCompanyId} is a value that uniquely identifies a developer company.
+      The {username} is a value that uniquely identifies an account.
+      The {developerCompanyId} and {username} together uniquely identify a developer-company-account association.
+  delete:
+    description: |
+      Dissociates an account from a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+      The {developerCompanyId} is a value that uniquely identifies a developer company.
+      The {username} is a value that uniquely identifies an account.
+      The {developerCompanyId} and {username} together uniquely identify a developer-company-account association.
+
+      <b>NOTE:</b> An owner account can not be dissociated from the developer company.
+    responses:
+      200:
+        body:
+          example: |
+                   {  "developerCompanyAccount": " " }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "DEVELOPER_COMPANY_NOT_FOUND",
+                  "message": "The developer company with the specified developerCompanyID is not found."
+                }
+              }
+            } 
+
+            {
+              "errors": {
+                "error": {
+                  "code": "ACCOUNT_NOT_FOUND",
+                  "message": "The account with the specified username is not found."
+                }
+              }
+            } 
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "DEVELOPER_COMPANY_ACCOUNT_ALREADY_EXISTS",
+                  "message": "The specified account is already associated with the specified developer company."
+                }
+              }
+            }      
+
+            {
+              "errors": {
+                "error": {
+                  "code": "DEVELOPER_COMPANY_OWNER_DISASSOCIATION_NOT_ALLOWED",
+                  "message": "The specified account is the owner of the developer company and we do not allow dissociating an owner account from the developer company."
+                }
+              }
+            }
+/developercompanies/{developerCompanyId}/services:
+  description: |
+      Gets (aka reads or retrieves) all services associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_SERVICE" can perform this operation for that developer company.
+  get:
+    description: |
+      Gets (aka reads or retrieves) all services associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_SERVICE" can perform this operation for that developer company.
+    responses:
+      200:
+        body:
+          example: |
+                      {
+                        "services": {
+                          "service": [
+                            {
+                              "serviceId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+                              "friendlyName": "HMIS API  service",
+                              "description": "HMIS API service description",
+                              "licenseType": "NONE",
+                              "status": "IN_DEVELOPMENT"
+                            },
+                            {
+                              "serviceId": "ACEFB4904535-2C97-4BF2-AF61-22095B4D",
+                              "friendlyName": "I am a sample service",
+                              "description": "I am a sample service description",
+                              "status": "ACTIVE"
+                            }
+                          ]
+                        }
+                      }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "INVALID_SESSION_TOKEN",
+                  "message": "The specified session/access token is not valid or has expired."
+                }
+              }
+            }           
+  post:
+    description: |
+      It creates a new service for the specified developer company. The initial status of the newly created service is <b>IN_DEVELOPMENT<b>. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    body:
+      example: |
+              {
+                "service": {
+                  "friendlyName": "I am sample service",
+                  "description": "I am sample service description",
+                }
+              }
+    responses:
+      200:
+        body:
+          example : |
+              {
+                "service": {
+                  "serviceId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868"
+                }
+              }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "INVALID_SESSION_TOKEN",
+                  "message": "The specified session/access token is not valid or has expired."
+                }
+              }
+            }
+      409:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NAME_ALREADY_EXISTS",
+                  "message": "A service with the specified friendly name already exists. The friendly name of the service must be globally unique."
+                }
+              }
+            }  
+/services/{serviceId} :
+  description:
+      Gets (aka reads or retrieves) a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+  get:
+    description:
+      Gets (aka reads or retrieves) a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    body:
+      example:
+    responses:
+      200:
+        body:
+          example: |
+                  {
+                    "service": {
+                      "serviceId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+                      "friendlyName": "sample service",
+                      "description": "sample service description",
+                      "status": "IN_DEVELOPMENT"
+                    }
+                  }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NOT_FOUND",
+                  "message": "A service with the specified serviceId is not found."
+                }
+              }
+            }  
+  put:
+    description:
+      Updates a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.A service can be updated only if its status is IN_DEVELOPMENT.
+    body:
+      example: |
+              {
+                "service": {
+                  "friendlyName": "sample service",
+                  "description": "sample service description"
+                }
+              }
+    responses:
+      200:
+        body:
+          example: |
+                    {
+                      "service": {
+                        "serviceId": "ACEFB4904535-2C97-4BF2-AF61-22095B4D",
+                        "friendlyName": "I am home service",
+                        "description": "sample service description",
+                        "status": "ACTIVE"
+                      }
+                    }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NOT_FOUND",
+                  "message": "A service with the specified serviceId is not found."
+                }
+              }
+            }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "ILLEGAL_STATE",
+                  "message": "The service can not be updated because its status is not IN_DEVELOPMENT."
+                }
+              }
+            }
+      409:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NAME_ALREADY_EXISTS",
+                  "message": "A service with the specified friendly name already exists. The friendly name of the service must be globally unique."
+                }
+              }
+            }
+  delete:
+     description: |
+       Deletes a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. A service can be deleted only if its status is IN_DEVELOPMENT and there are no trustedApps associated.
+     responses:
+      200:
+         body:
+          example : |
+                    {  "service": "" }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NOT_FOUND",
+                  "message": "A service with the specified serviceId is not found."
+                }
+              }
+            }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "ILLEGAL_STATE",
+                  "message": "The service can not be updated because its status is not IN_DEVELOPMENT."
+                }
+              }
+            }
+/services/{serviceId}/approvalsubmission:      
+  post:
+    description:
+      It submits the specified service for approval. The status of the service is changed to SUBMITTED and an email is sent to the owner of the developer company stating that the service has been submitted for approval.
+      A service can be submitted for approval only if its status is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    body:
+      example : |
+              {   "serviceStatus": {  "comment": "submitting service for approval."  } }
+    responses:
+      200:
+        body:
+          example : |
+              {  "serviceStatus": " " }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NOT_FOUND",
+                  "message": "A service with the specified serviceId is not found."
+                }
+              }
+            }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "ILLEGAL_STATE",
+                  "message": "The service can not be updated because its status is not IN_DEVELOPMENT."
+                }
+              }
+            }
+/services/{serviceId}/approvaldecision:      
+  post:
+    description: |
+      It approves or rejects a service. If the service is approved the status of the service is changed to ACTIVE and if the service is rejected the status of the service is changed to IN_DEVELOPMENT. An email is sent to the owner of the developer company with the approval decision.
+      A service can be approved or rejected only if its current status is SUBMITTED.
+    body:
+      example: |
+                {
+                  "serviceStatus": {
+                    "status": "ACTIVE",
+                    "comment": "service has been approved"
+                  }
+                }
+    responses:
+      200:
+        body:
+          example: |
+                {
+                  "serviceStatus": {
+                    "status": "ACTIVE",
+                    "comment": "service has been approved"
+                  }
+                }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NOT_FOUND",
+                  "message": "A service with the specified serviceId is not found."
+                }
+              }
+            }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "ILLEGAL_STATE",
+                  "message": "The service can not be updated because its status is not SUBMITTED."
+                }
+              }
+            }      
+/services/{serviceId}/trustedApps:
+  get:
+    description:
+      Gets (aka reads or retrieves) all trustedApps associated with the specified service. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_CLIENT" can perform this operation for that developer company. 
+    responses:
+      200:
+        body:
+          example : |
+                        {
+                          "trustedApps": {
+                            "trustedApp": [
+                              {
+                                "trustedAppId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+                                "friendlyName": "Sample Trusted app1",
+                                "description": "Sample Trusted app1 description",
+                                "trustedAppSecret": "ajkdjledkaelanmcxsnjekldkleldfasfsd",
+                                "logoUrl": "http://logos/logo1.png",
+                                "trustedAppProfileType": "NATIVE",
+                                "trustedAppFamilyType": "APP",
+                                "refreshTokenSupported": "true",
+                                "implicitGrantSupported": "false",
+                                "authCodeGrantSupported": "true",
+                                "status": "ACTIVE"
+                              },
+                              {
+                                "trustedAppId": "ACEFB4904535-2C97-4BF2-AF61-22095B4D",
+                                "friendlyName": "Sample Trusted app2",
+                                "description": "Sample Trusted app2 description",
+                                "trustedAppSecret": "ghgskhgklgwggwewfsjdfasf",
+                                "logoUrl": "http://logos/logo1.png",
+                                "trustedAppProfileType": "NATIVE",
+                                "trustedAppFamilyType": "APP",
+                                "refreshTokenSupported": "true",
+                                "implicitGrantSupported": "false",
+                                "authCodeGrantSupported": "true",
+                                "status": "IN_DEVELOPMENT"
+                              }
+                            ]
+                          }
+                        }  
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NOT_FOUND",
+                  "message": "A service with the specified serviceId is not found."
+                }
+              }
+            }
+  post:
+    description: |
+        It creates a new trustedApp for the specified service. The initial status of the newly created trustedApp is IN_DEVELOPMENT.
+        Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    body:
+      example: |
+                {
+                  "trustedApp": {
+                    "friendlyName": "sample trusted app",
+                    "description": "sample trusted app description"
+                  }
+                }
+    responses:
+      200:
+        body:
+          example: |
+                  {
+                    "trustedApp": {
+                      "trustedAppId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868"
+                    }
+                  }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "SERVICE_NOT_FOUND",
+                  "message": "A service with the specified serviceId is not found."
+                }
+              }
+            }
+/trustedApps/{trustedAppId}:
+  get:
+    description: |
+        Gets (aka reads or retrieves) a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    responses:
+      200:
+        body :
+          example : |
+                    {
+                        "trustedApp":
+                           {
+                              "trustedAppTypeId":"631D1191-9AC5-4F3F-836A-8DB0DBAE3CD3",
+                              "friendlyname":"Friendly Name_1437006937244",
+                              "description":"Description",
+                              "status":"IN_DEVELOPMENT",
+                              "trustedAppSecret":"7432e99debbe4fd1af0ea6eb65b4f3e4"
+                           
+                           }      
+                     }           
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "CLIENT_NOT_FOUND",
+                  "message": "A trustedApp with the specified trustedAppId is not found."
+                }
+              }
+            }  
+  put:
+    description:
+        Updates a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+        Only certain trustedApp fields can be updated if its status is not IN_DEVELOPMENT. See table below.
+    body:
+      example : |
+                    {
+                        "trustedApp":
+                           {
+                              "trustedAppTypeId":"631D1191-9AC5-4F3F-836A-8DB0DBAE3CD3",
+                              "friendlyname":"Friendly Name",
+                              "description":"Description",
+                              "status":"IN_DEVELOPMENT",
+                              "trustedAppSecret":"7432e99debbe4fd1af0ea6eb65b4f3e4"
+                           }      
+                     }   
+    responses:
+      200:
+        body:
+          example: |
+                    {
+                        "trustedApp":
+                           {
+                              "trustedAppTypeId":"631D1191-9AC5-4F3F-836A-8DB0DBAE3CD3",
+                              "friendlyname":"Friendly Name",
+                              "description":"Description",
+                              "status":"IN_DEVELOPMENT",
+                              "trustedAppSecret":"7432e99debbe4fd1af0ea6eb65b4f3e4",
+                           }      
+                     }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "CLIENT_NOT_FOUND",
+                  "message": "A trustedApp with the specified trustedAppId is not found."
+                }
+              }
+            }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "ILLEGAL_STATE",
+                  "message": "The trustedApp can not be updated because its current status is not IN_DEVELOPMENT."
+                }
+              }
+            }
+  delete:
+    description: |
+      Deletes a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+      A trustedApp can be deleted only if its status is IN_DEVELOPMENT.
+    responses:
+      200:
+        body:
+          example : |
+              { "trustedApp": "" }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "CLIENT_NOT_FOUND",
+                  "message": "A trustedApp with the specified trustedAppId is not found."
+                }
+              }
+            }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "ILLEGAL_STATE",
+                  "message": "The trustedApp can not be updated because its current status is not IN_DEVELOPMENT."
+                }
+              }
+            }
+/trustedApps/{trustedAppId}/trustedAppsecret:
+  put:
+    description: |
+      It generates a new trustedApp secret for the the specified trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+    responses:
+      200:
+        body:
+          example : |
+                  {
+                    "trustedApp": {
+                      "trustedAppId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+                      "trustedAppSecret": "ajkdjledkaelanmcxsnjekldkleldfasfsd"
+                    }
+                  }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "CLIENT_NOT_FOUND",
+                  "message": "A trustedApp with the specified trustedAppId is not found."
+                }
+              }
+            }
+/trustedApps/{trustedAppId}/approvalsubmission:  
+  post:
+        description: |
+          It submits the specified trustedApp for approval. The status of the trustedApp is changed to SUBMITTED and an email is sent to the owner of the developer company stating that the trustedApp/app has been submitted for approval.
+          A trustedApp can be submitted for approval only if its status is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.
+        body:
+          example : |
+            {
+               "trustedAppStatus": {
+                  "comment": "submitting IOS trustedApp for approval."
+                }
+            }
+        responses:
+          200:
+            body:
+              example : |
+                { "trustedAppStatus " : " "}
+          404:
+            body:
+              example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "CLIENT_NOT_FOUND",
+                      "message": "A trustedApp with the specified trustedAppId is not found."
+                    }
+                  }
+                }
+          403:
+            body:
+              example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "ILLEGAL_STATE",
+                      "message": "TThe specified trustedApp can not be submitted for approval because its current status is not IN_DEVELOPMENT."
+                    }
+                  }
+                }
+/trustedApps/{trustedAppId}/approvaldecision:
+  post:
+    description: |
+              It approves or rejects a trustedApp. If the trustedApp is approved the status of the trustedApp is changed to ACTIVE and if the trustedApp is rejected the status of the trustedApp is changed to IN_DEVELOPMENT. An email is sent to the owner of the developer company with the approval decision. User must have "MODIFY_ANY_TRUSTEDAPP_APPROVAL" permission to use this API. See user-level authroization permissions
+              A trustedApp can be approved or rejected only if its current status is SUBMITTED.
+    body:
+      example: |
+        {
+          "trustedAppStatus": {
+            "status": "ACTIVE",
+            "comment": "trustedApp has been approved."
+          }
+        }
+    responses:
+      200:
+        body:
+          example : |
+                {
+                  "trustedAppStatus": {
+                    "status": "ACTIVE",
+                    "comment": "trustedApp has been approved."
+                  }
+                }
+      404:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "CLIENT_NOT_FOUND",
+                  "message": "A trustedApp with the specified trustedAppId is not found."
+                }
+              }
+            }
+      403:
+        body:
+          example: |
+            {
+              "errors": {
+                "error": {
+                  "code": "ILLEGAL_STATE",
+                  "message": "The trustedApp can not be approved because its current status is not SUBMITTED."
+                }
+              }
+            }  
+/accounts:
+  displayName: All accounts
+  post:
+    description: It creates an account with the specified username and sends out an email to the user to verify the account creation. The initial status of the newly created account is PENDING. The status is changed to ACTIVE when the user verifies account creation by clicking the link embedded in the email. Only an ACTIVE account can log-in using the Create a session (Log-in) API. <br> It returns an error if an account with the specified username already exists.
+    body:
+      example : |
+        { "account":{
+                "username":"username_1436679989664@hmis.com",
+                "emailAddress":"test@test.com",
+                "password":"password",
+                "firstName":"First Name",
+                "middleName":"Middle Name",
+                "lastName":"Last Name",
+                "gender":"Male",
+             }
+          } 
+    responses: 
+      200 : 
+        body :
+          example : |
+            {
+              "account": {
+                "accountId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+                "username": "username_1436679989664@hmis.com"
+              }
+            }
+      409 :
+       description :  An account with the specified username already exists.
+       body :
+        example : |
+            {
+              "errors": {
+                "error": {
+                  "code": "ACCOUNT ALREADY_EXISTS",
+                  "message": "an account with the specified username already exists. username: username_1436679989664@hmis.com"
+                }
+              }
+            }
+/account/{username} :
+  displayName : A specific account
+  get:
+    description: |
+      Gets (aka reads or retrieves) a specific account. <BR><br>
+      GET /accounts/{username}
+      <b>
+    responses:
+      200:
+        description: |
+          Successfully retrieved resource(s)
+        body:
+         example : |
+                { "account":{
+                      "accountId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+                      "username":"username_1436679989664@hmis.com",
+                      "emailAddress":"test@test.com",
+                      "firstName":"First Name",
+                      "middleName":"Middle Name",
+                      "lastName":"Last Name"
+                    }
+                }
+      403 :
+       body :
+        example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "ACCESS_DENIED",
+                      "message": "Access denied"
+                    }
+                  }
+                }
+/account/{username}/status :
+  displayName : A specific account
+  get:
+    description: |
+     Gets (aka reads or retrieves) the current status of an account. An account's status can be NONEXISTENT, PENDING, ACTIVE or DISABLED.
+     The {username} is a value that uniquely identifies an account.
+    responses:
+      200:
+        description: |
+        body:
+          example : |
+                {  "account": { "status": "ACTIVE" } }
+      403 :
+       body :
+        example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "INVALID_CLIENT_TYPE",
+                      "message": "The specified client type does not exists or is not active."
+                    }
+                  }
+                }
+/accounts/{username}/passwordchanges :
+  displayName : Change password for an account
+  get:
+    description: |
+        Changes password for an account. To change the password, the user must be logged-in and provide his/her current password.
+        The {username} is a value that uniquely identifies an account.
+        To change the password of the currently logged-in user, the {username} can be replaced by <b>self</b> keyword in the URL as shown below.
+        <b>POST</b> /accounts/self/passwordchanges
+    body :
+      example : |
+                {
+                  "passwordChange": {
+                    "currentPassword": "testpwd3",
+                    "newPassword": "testpwd4"
+                  }
+                }
+    responses:
+      200:
+        description: |
+        body:
+          example : |
+                  {  "passwordChange": "" }
+      403 :
+       body :
+        example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "INVALID_CURRENT_PASSWORD",
+                      "message": "The specified currentPassword does not match with the password stored in the database."
+                    }
+                  }
+                }
+
+/accounts/{username}/passwordresets :
+  displayName : Change password for an account
+  get:
+    description: |
+        Resets password for an account. It sends out an email notification to the user to verify the password reset. The new password becomes effective only after it has been verified by the user. It returns an error if an account with the specified username does not exist OR the account has been DISABLED.
+        </br> The {username} is a value that uniquely identifies an account.
+    responses:
+      200:
+        description: |
+        body:
+          example : |
+                  {  "passwordReset": "" }
+      403 :
+       body :
+        example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "ACCOUNT_DISABLED",
+                      "message": "The account has been disabled."
+                    }
+                  }
+                }
+      404 :
+       body :
+        example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "ACCOUNT_NOT_FOUND",
+                      "message": "An account with the specified username does not exist."
+                    }
+                  }
+                }
+
+
+/accounts/{username}/basicinfo :
+  displayName : Get basic information of an account
+  get:
+    description: |
+        Gets (aka reads or retrieves) the basic information (i.e. accountId, firstName, lastName, and middleName) of the specified account.
+        The {username} is a value that uniquely identifies an account.
+        To get the account of the currently logged-in user, the <username> can be replaced by self keyword in the URL as shown below.      
+    responses:
+      200:
+        description: |
+        body:
+         example : |
+                  {
+                    "account": {
+                      "accountId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+                      "firstName": "firstName",
+                      "lastName": "lastName",
+                      "middleName": "middleName"
+                    }
+                  }
+      403 :
+       body :
+         example: |
+                {
+                  "errors": {
+                    "error": {
+                      "code": "ACCESS_DENIED",
+                      "message": "only self is allowed as the username in the URI."
+                    }
+                  }
+                }
+
+
+  
