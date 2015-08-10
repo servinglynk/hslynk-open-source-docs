@@ -1,4 +1,4 @@
-OpenHMISDataWarehouse
+open-hmis-data-warehouse
 ===========
-Contains documentation for the HMIS project.
+Contains wiki documentation, and issue tracker for the ServingLynk Open HMIS Data Warehouse project.
 
