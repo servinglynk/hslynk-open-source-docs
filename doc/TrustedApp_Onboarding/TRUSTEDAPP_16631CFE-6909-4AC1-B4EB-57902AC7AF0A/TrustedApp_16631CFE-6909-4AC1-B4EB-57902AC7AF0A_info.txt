@@ -1,0 +1,5 @@
+The following information is needed by Trusted App developers to call OAUTH APIs and to access APIs.
+1. TRUSTED APP ID : 16631CFE-6909-4AC1-B4EB-57902AC7AF0A
+2. TRUSTED APP SECRET : e7052d2a000447c8bd51cb88ab10ca17
+3. REDIRET URI(s) (Once the OAUTH flow is complete, the user should be redirected to only of these registerd URIs):http://redirect1@app1.com, http://redirect2@app1.com
+
