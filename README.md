@@ -1,5 +1,7 @@
 open-hmis-data-warehouse
 ===========
+
+[![Join the chat at https://gitter.im/hslynk/Lobby](https://badges.gitter.im/hslynk/Lobby.svg)](https://gitter.im/hslynk/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Contains wiki documentation, and issue tracker for the ServingLynk Open HMIS Data Warehouse project.
 
 For discussion of the HMIS API, please see the [HMIS API Discussion Group](https://groups.google.com/forum/#!forum/hmis-api).  Please note that that discussion group is vendor-neutral: it is for discussing requests, responses, and endpoints, not specific products or business goals.
