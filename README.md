@@ -1,4 +1,4 @@
-open-hmis-data-warehouse
+open source health and human services data warehouse
 ===========
 
 [![Join the chat at https://gitter.im/hslynk/Lobby](https://badges.gitter.im/hslynk/Lobby.svg)](https://gitter.im/hslynk/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
