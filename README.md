@@ -12,4 +12,4 @@ For discussion of the HMIS API, please see the [HMIS API Discussion Group](https
 
 For full API documentation, please see [the reference](https://anypoint.mulesoft.com/apiplatform/apis/#/portals/organizations/1d2d1eb1-46af-4ee8-aa04-bd79ed2764a3/apis/62269/versions/64666).
 
-API markup repositories are [here](https://github.com/hmis-api/)
+API markup repositories are [here](https://github.com/hmis-api/).
