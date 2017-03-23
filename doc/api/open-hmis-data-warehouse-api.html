@@ -1,0 +1,979 @@
+<!DOCTYPE HTML><html><head><title>Authorization API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/raml2html/raml2html 3.0.1"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.3.0/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code, .modal-body pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          try {
+            if (history && history.replaceState) {
+                history.replaceState({}, '', '#');
+            }
+          } catch(e) {}
+        });
+      });
+    </script><style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h1 {
+        font-size: 1.3em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+
+      pre code {
+        overflow: auto;
+        word-wrap: normal;
+        white-space: pre;
+      }
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>Authorization API documentation <small>version 1.0.0</small></h1><p>http://hmisdomain/authorizationservice/rest/oAuth</p></div><div class="panel panel-default"><div class="panel-heading"><h3 id="authorize" class="panel-title">Authorization Endpoint</h3></div><div class="panel-body"><div class="top-resource-description"><p>This endpoint is used by the client to obtain authorization from the HMIS user via user-agent (typically a web browser) redirection. It handles active session lookup (via cookie), authenticating the user, and user consent.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_authorize"><span class="parent"></span>/authorize</a> <span class="methods"><a href="#authorize_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_authorize" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#authorize_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>The authorization service validates the request to ensure all required parameters are present and valid. If the request is valid, the authorization service authenticates the Hmis user and obtains an authorization decision/consent (by asking the HMIS user). When a decision is established, the authorization service directs the user-agent to the provided client redirection URI using an HTTP redirection response</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="authorize_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/authorize</h4></div><div class="modal-body"><div class="alert alert-info"><p>The authorization service validates the request to ensure all required parameters are present and valid. If the request is valid, the authorization service authenticates the Hmis user and obtains an authorization decision/consent (by asking the HMIS user). When a decision is established, the authorization service directs the user-agent to the provided client redirection URI using an HTTP redirection response</p></div><ul class="nav nav-tabs"><li class="active"><a href="#authorize_get_request" data-toggle="tab">Request</a></li><li><a href="#authorize_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="authorize_get_request"><h3>Query Parameters</h3><ul><li><strong>response_type</strong>: <em>(string)</em></li><li><strong>client_id</strong>: <em>(string)</em></li><li><strong>redirect_uri</strong>: <em>(string)</em></li><li><strong>state</strong>: <em>(string)</em></li><li><strong>access_type</strong>: <em>(string)</em></li><li><strong>approval_prompt</strong>: <em>(string)</em></li></ul></div><div class="tab-pane" id="authorize_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>If the Hmis user grants the access request, the authorization service issues an authorization code and delivers it to the client by adding the following parameters to the query component of the redirection URI using the "application/x-www-form-urlencoded" format.</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>Location: https://client.example.com/cb?code=SplxlOBeZQQYbYS6WxSbIA&amp;state=xyz
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><p>If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client identifier is missing or invalid, the authorization service will inform the HMIS user of the error, and will not automatically redirect the user-agent to the invalid redirection URI. If the HMIS user denies the access request or if the request fails for reasons other than a missing or invalid redirection URI, the authorization service informs the client by adding the following parameters to the query component of the redirection URI using the "application/x-www-form-urlencoded" format:<table class="confluenceTable tablesorter" border="1"></table></p><p><thead><tr class="sortableHeader"><th class="confluenceTh sortableHeader" data-column="0"><div class="tablesorter-header-inner"><p>Parameter Name</p></div></th><th class="confluenceTh sortableHeader" data-column="1"><div class="tablesorter-header-inner"><p>Description / Parameter Value</p></div></th><th class="confluenceTh sortableHeader" data-column="2"><div class="tablesorter-header-inner"><p>Required?</p></div></th></tr></thead><tbody></tbody></p><pre><code> &lt;tr&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; error &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; A single error code from the following: &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;invalid_request&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The request is missing a required parameter, includes an invalid parameter value, or is otherwise malformed. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;unauthorized_client&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The client is not authorized to request an authorization code using this method. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;access_denied&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The HMIS  user or authorization service denied the request. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;unsupported_response_type&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The authorization service does not support obtaining an authorization code using this method. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;server_error&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The authorization service encountered an unexpected condition which prevented it from fulfilling the request. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;temporarily_unavailable&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The authorization service is currently unable to handle the request due to a temporary overloading or maintenance of the server. &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; Yes &lt;/p&gt;&lt;/td&gt; 
+ &lt;/tr&gt; 
+ &lt;tr&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; error_description &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; A human-readable UTF-8 encoded text providing additional information, used to assist the client developer in understanding the error that occurred. &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; No &lt;/p&gt;&lt;/td&gt; 
+ &lt;/tr&gt; 
+ &lt;tr&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; state &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; The exact value received from the client. &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; Yes if a &lt;strong&gt;state&lt;/strong&gt; parameter was included in the authorization request. &lt;/p&gt;&lt;/td&gt; 
+ &lt;/tr&gt; 
+&lt;/tbody&gt;&lt;/table&gt;            
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="token" class="panel-title">Token Endpoint</h3></div><div class="panel-body"><div class="top-resource-description"><p>The token endpoint is used by the client to obtain an access token by presenting one of the following: 1) authorization code (obtained thru Authorization Endpoint using the Authorization Code Grant Flow) 2) refresh token The token endpoint is used with every authorization flow except for the implicit grant flow (since an access token is issued directly).</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_token"><span class="parent"></span>/token</a> <span class="methods"><a href="#token_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_token" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#token_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>The client makes a request to the token endpoint by adding the following parameters using the "application/x-www-form-urlencoded" format in the HTTP request entity-body</p><table class="confluenceTable tablesorter"><p><thead><tr class="sortableHeader"><th class="confluenceTh sortableHeader" data-column="0"><div class="tablesorter-header-inner"><p>Parameter Name</p></div></th><th class="confluenceTh sortableHeader" data-column="1"><div class="tablesorter-header-inner"><p>Description / Parameter Value</p></div></th><th class="confluenceTh sortableHeader" data-column="2"><div class="tablesorter-header-inner"><p>Required?</p></div></th></tr></thead><tbody></tbody></p><p><tr><td class="confluenceTd"><p>grant_type</p></td><td class="confluenceTd"><p>As defined in the OAuth 2.0 specification, the value of this parameter must be set to <strong>authorization_code</strong>.</p></td><td class="confluenceTd"><p>Yes</p></td></tr><tr><td class="confluenceTd"><p>code</p></td><td class="confluenceTd"><p>The authorization code received in the authorization response.</p></td><td class="confluenceTd"><p>Yes</p></td></tr><tr><td class="confluenceTd"><p>redirect_uri</p></td><td class="confluenceTd"><p>The <strong>redirect_uri</strong> parameter that was included in the authorization request as described in Authorization Code Grant Flow - Authorization Request, and their values MUST be identical.</p></td><td class="confluenceTd"><p>Yes</p></td></tr></p></table>The authorization service does the following: Authenticate the client and ensure the authorization code was issued to the authenticated client. Verify that the authorization code is valid. Ensure that the specified redirect_uri parameter value is same as the redirect_uri parameter value included in the initial authorization request as described in Authorization Code Grant Flow - Authorization Request.<p></p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="token_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/token</h4></div><div class="modal-body"><div class="alert alert-info"><p>The client makes a request to the token endpoint by adding the following parameters using the "application/x-www-form-urlencoded" format in the HTTP request entity-body</p><table class="confluenceTable tablesorter"><p><thead><tr class="sortableHeader"><th class="confluenceTh sortableHeader" data-column="0"><div class="tablesorter-header-inner"><p>Parameter Name</p></div></th><th class="confluenceTh sortableHeader" data-column="1"><div class="tablesorter-header-inner"><p>Description / Parameter Value</p></div></th><th class="confluenceTh sortableHeader" data-column="2"><div class="tablesorter-header-inner"><p>Required?</p></div></th></tr></thead><tbody></tbody></p><p><tr><td class="confluenceTd"><p>grant_type</p></td><td class="confluenceTd"><p>As defined in the OAuth 2.0 specification, the value of this parameter must be set to <strong>authorization_code</strong>.</p></td><td class="confluenceTd"><p>Yes</p></td></tr><tr><td class="confluenceTd"><p>code</p></td><td class="confluenceTd"><p>The authorization code received in the authorization response.</p></td><td class="confluenceTd"><p>Yes</p></td></tr><tr><td class="confluenceTd"><p>redirect_uri</p></td><td class="confluenceTd"><p>The <strong>redirect_uri</strong> parameter that was included in the authorization request as described in Authorization Code Grant Flow - Authorization Request, and their values MUST be identical.</p></td><td class="confluenceTd"><p>Yes</p></td></tr></p></table>The authorization service does the following: Authenticate the client and ensure the authorization code was issued to the authenticated client. Verify that the authorization code is valid. Ensure that the specified redirect_uri parameter value is same as the redirect_uri parameter value included in the initial authorization request as described in Authorization Code Grant Flow - Authorization Request.<p></p></div><ul class="nav nav-tabs"><li class="active"><a href="#token_post_request" data-toggle="tab">Request</a></li><li><a href="#token_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="token_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p></div><div class="tab-pane" id="token_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>If the access token request is valid and authorized, the authorization service issues an access token and optional refresh token, and constructs the response by adding the following parameters to the entity body of the HTTP response with a 200 (OK) status code</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "access_token":"2YotnFZFEjr1zCsicMWpAA",
+  "token_type":"Bearer",
+  "expires_in":3600,
+  "refresh_token":"tGzv3JOkF0XG5Qx2TlKWIA"
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><p>The authorization service responds with an HTTP 400 (Bad Request) status code and includes the following parameters with the response<table class="confluenceTable tablesorter"><thead><tr class="sortableHeader"><th class="confluenceTh sortableHeader" data-column="0"><div class="tablesorter-header-inner"><p>Parameter Name</p></div></th><th class="confluenceTh sortableHeader" data-column="1"><div class="tablesorter-header-inner"><p>Description / Parameter Value</p></div></th><th class="confluenceTh sortableHeader" data-column="2"><div class="tablesorter-header-inner"><p>Required?</p></div></th></tr></thead><tbody></tbody></table></p><pre><code> &lt;tr&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; error &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; A single error code from the following: &lt;br class="atl-forced-newline"&gt;     &lt;strong&gt;invalid_request&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The request is missing a required parameter, includes an unsupported parameter value (other than grant type), repeats a parameter, includes multiple credentials, utilizes more than one mechanism for authenticating the client, or is otherwise malformed. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;invalid_client&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; Client authentication failed (e.g. unknown client, no client authentication included, or unsupported authentication method). &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;invalid_grant&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The provided authorization grant (e.g. authorization code, resource owner credentials) or refresh token is invalid, expired, revoked, does not match the redirection URI used in the authorization request, or was issued to another client. This error code is also returned if the account is disabled. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;unauthorized_client&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The authenticated client is not authorized to use this authorization grant type. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;unsupported_grant_type&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The authorization grant type is not supported by the authorization service. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;server_error&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The authorization service encountered an unexpected condition which prevented it from fulfilling the request. &lt;br class="atl-forced-newline"&gt; &lt;strong&gt;temporarily_unavailable&lt;/strong&gt; &lt;br class="atl-forced-newline"&gt; The authorization service is currently unable to handle the request due to a temporary overloading or maintenance of the server. &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; Yes &lt;/p&gt;&lt;/td&gt; 
+ &lt;/tr&gt; 
+ &lt;tr&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; error_description &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; A human-readable UTF-8 encoded text providing additional information, used to assist the client developer in understanding the error that occurred. &lt;/p&gt;&lt;/td&gt; 
+  &lt;td class="confluenceTd"&gt;&lt;p&gt; No &lt;/p&gt;&lt;/td&gt; 
+ &lt;/tr&gt; 
+&lt;/tbody&gt;&lt;/table&gt;
+</code></pre><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{ "error":"invalid_request" }
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="revoke" class="panel-title">Revocation Request</h3></div><div class="panel-body"><div class="top-resource-description"><p>The revocation endpoint is used by the client to revoke one of the following tokens: 1) access token 2) refresh token - (i.e. refresh token and all related access tokens) 3) consent token - (i.e. consent token and all related refresh tokens and access tokens) Developers may use this feature when configuring a Log Out button in their application.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_revoke"><span class="parent"></span>/revoke</a> <span class="methods"><a href="#revoke_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_revoke" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#revoke_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>The revocation endpoint is used by the client to revoke one of the following tokens: 1) access token 2) refresh token - (i.e. refresh token and all related access tokens) 3) consent token - (i.e. consent token and all related refresh tokens and access tokens) Developers may use this feature when configuring a Log Out button in their application.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="revoke_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/revoke</h4></div><div class="modal-body"><div class="alert alert-info"><p>The revocation endpoint is used by the client to revoke one of the following tokens: 1) access token 2) refresh token - (i.e. refresh token and all related access tokens) 3) consent token - (i.e. consent token and all related refresh tokens and access tokens) Developers may use this feature when configuring a Log Out button in their application.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#revoke_post_request" data-toggle="tab">Request</a></li><li><a href="#revoke_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="revoke_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>revoking an access token : 
+    access_token=SplxlOBeZQQYbYS6WxSbIA
+revoking a refresh token) : 
+   refresh_token=khgfkagasgurnjg434
+revoking a consent token
+   consent_token=GLKfkfnafan349dljl
+</code></pre></div><div class="tab-pane" id="revoke_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>revoking an access token : 
+   { "access_token"="SplxlOBeZQQYbYS6WxSbIA" }
+revoking a refresh token) : 
+   {"refresh_token"="khgfkagasgurnjg434" }
+revoking a consent token
+   { "consent_token"="GLKfkfnafan349dljl" }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{ "error":"invalid_request" }
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="clients__clientId__consentmessages" class="panel-title">Consent Message</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_clients__clientId__consentmessages"><span class="parent"></span>/clients/{clientId}/consentmessages</a> <span class="methods"><a href="#clients__clientId__consentmessages_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_clients__clientId__consentmessages" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#clients__clientId__consentmessages_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets a list of consent messages for the specified client.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="clients__clientId__consentmessages_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/clients/{clientId}/consentmessages</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets a list of consent messages for the specified client.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#clients__clientId__consentmessages_get_request" data-toggle="tab">Request</a></li><li><a href="#clients__clientId__consentmessages_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="clients__clientId__consentmessages_get_request"><h3>URI Parameters</h3><ul><li><strong>clientId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="clients__clientId__consentmessages_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "oAuthMessageGroups": {
+    "oAuthMessageGroup": [
+      {
+        "consentMessage": "Read your basic account information",
+        "detailedConsentMessageExists": "false",
+        "oAuthMessageItems": {
+          "oAuthMessageItem": {
+            "consentMessage": "Read your account id, first name, middle name and last name",
+            "detailedConsentMessageExists": "false"
+          }
+        }
+      },
+      {
+        "consentMessage": "read information associated with your account",
+        "oAuthMessageItems": {
+          "oAuthMessageItem": [
+            {
+              "consentMessage": "Sample consent message",
+              "detailedConsentMessageExists": "false"
+            },
+            {
+              "consentMessage": "sample consent message",
+              "detailedConsentMessageExists": "false"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}     
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "the specified client is not found"
+    }
+  }
+} 
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="clients__clientId__detailedconsentmessages" class="panel-title">/clients/{clientId}/detailedconsentmessages</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_clients__clientId__detailedconsentmessages"><span class="parent"></span>/clients/{clientId}/detailedconsentmessages</a> <span class="methods"><a href="#clients__clientId__detailedconsentmessages_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_clients__clientId__detailedconsentmessages" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#clients__clientId__detailedconsentmessages_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets a list of detailed consent messages for the specified client.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="clients__clientId__detailedconsentmessages_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/clients/{clientId}/detailedconsentmessages</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets a list of detailed consent messages for the specified client.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#clients__clientId__detailedconsentmessages_get_request" data-toggle="tab">Request</a></li><li><a href="#clients__clientId__detailedconsentmessages_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="clients__clientId__detailedconsentmessages_get_request"><h3>URI Parameters</h3><ul><li><strong>clientId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="clients__clientId__detailedconsentmessages_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "oAuthMessageGroups": {
+    "oAuthMessageGroup": {
+      "consentMessage": "Consent message for the API",
+      "detailedConsentMessage": "some detailed consent message",
+      "oAuthMessageItems": {
+        "oAuthMessageItem": { "detailedConsentMessage": "This is the detailed consent message" }
+      }
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "the specified client (trusted App) is not found"
+    }
+  }
+}              
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="developercompanies" class="panel-title">Get all developer companies</h3></div><div class="panel-body"><div class="top-resource-description"><p>Gets ( reads or retrieves) all developer companies.It filters the result based on the request parameters (optional) &#39;trustedApp.status&#39; or &#39;service.status&#39;. The user must have "READ_ANY_DEVELOPER_COMPANY" permission to use this API.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_developercompanies"><span class="parent"></span>/developercompanies</a> <span class="methods"><a href="#developercompanies_get"><span class="badge badge_get">get</span></a> <a href="#developercompanies_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_developercompanies" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#developercompanies_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets ( reads or retrieves) all developer companies.It filters the result based on the request parameters (optional) &#39;trustedApp.status&#39; or &#39;service.status&#39;. The user must have "READ_ANY_DEVELOPER_COMPANY" permission to use this API.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#developercompanies_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It creates a new developer company with the specified account as the owner/admin. It performs the following logic:</p><ul><li>If a CCC account already exists with the specified username (email address):</li><li>Create a new developer company.-</li><li>Associate the existing CCC account as the owner/admin of the company.</li><li>If a CCC account does NOT exist with the specified username (email address)<ul><li>Create a new CCC account (in "ACTIVE" state) with the specified username (email address), first name and last name. The password for the account it auto-generated.</li><li>Create a new developer company.</li><li>Associate the newly created account as the owner/admin of the company.</li><li>Send out the password reset email for the newly created CCC account.</li></ul></li></ul></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/developercompanies</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets ( reads or retrieves) all developer companies.It filters the result based on the request parameters (optional) &#39;trustedApp.status&#39; or &#39;service.status&#39;. The user must have "READ_ANY_DEVELOPER_COMPANY" permission to use this API.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "developerCompanyList": {
+    "paginationResult": {
+      "startIndex": "0",
+      "itemsReturned": "2",
+      "totalItems": "16"
+    },
+    "developerCompanies": {
+      "developerCompany": [
+        {
+          "developerCompanyId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+          "name": "Amazing Inc.",
+          "domain": "www.hmis.com",
+          "owner": {
+            "username": "username@gmail.com",
+            "firstName": "firstname",
+            "lastName": "lastname"
+          }
+        },
+        {
+          "developerCompanyId": "5D94CEC6A868-532D-4D59-B397-AA8F9FD9",
+          "name": "HMIS.",
+          "domain": "www.hmis.com",
+          "owner": {
+            "username": "username@gmail.com",
+            "firstName": "firstname",
+            "lastName": "lastname"
+          }
+        }
+      ]
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/401" target="_blank">401</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "INVALID_SESSION_TOKEN",
+      "message": "The specified session/access token is not valid or has expired."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/developercompanies</h4></div><div class="modal-body"><div class="alert alert-info"><p>It creates a new developer company with the specified account as the owner/admin. It performs the following logic:</p><ul><li>If a CCC account already exists with the specified username (email address):</li><li>Create a new developer company.-</li><li>Associate the existing CCC account as the owner/admin of the company.</li><li>If a CCC account does NOT exist with the specified username (email address)<ul><li>Create a new CCC account (in "ACTIVE" state) with the specified username (email address), first name and last name. The password for the account it auto-generated.</li><li>Create a new developer company.</li><li>Associate the newly created account as the owner/admin of the company.</li><li>Send out the password reset email for the newly created CCC account.</li></ul></li></ul></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies_post_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+"developerCompany": {
+  "name": "Amazing Inc.",
+  "domain": "www.amazing.com",
+  "logoUrl": "Company Logo URL ",
+  "companySize": "100",
+  "appExperience": "Mobile apps",
+  "companySkillSet": "skill set",
+  "appPlatforms": "iOS,Windows",
+  "expectedAppFinishDate": "2013-03-26",
+  "contactEmail": "info@amazing.com",
+  "owner": {
+    "username": "SuryaYadavallitest1@gmail.com",
+    "firstName": "Surya",
+    "lastName": "Yadavalli"
+  }
+}
+</code></pre></div><div class="tab-pane" id="developercompanies_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "developerCompany": { "developerCompanyId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868" } }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/400" target="_blank">400</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ACCESS_DENIED",
+      "message": "The developer company could not be created because the trustedApp submitting the request was not authorized to do so."
+    }
+  }
+}
+
+{
+  "errors": {
+    "error": {
+      "code": "MISSING_PARAMETER",
+      "message": "Some of the required element/query-parameter/header values are not specified (or missing) in the request."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "INVALID_CLIENT_TYPE",
+      "message": "The trustedApp type ID is not valid."
+    }
+  }
+}
+
+                  {
+  "errors": {
+    "error": {
+      "code": "ACCESS_DENIED",
+      "message": "The developer company could not be created because the trustedApp submitting the request was not authorized to do so."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "UNKNOWN",
+      "message": "An internal service/server error occurred. (e.g. database is down, etc.)."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="developercompanies__developerCompanyId_" class="panel-title">Update a developer Company</h3></div><div class="panel-body"><div class="top-resource-description"><p>Updates a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can update that developer company.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_developercompanies__developerCompanyId_"><span class="parent"></span>/developercompanies/{developerCompanyId}</a> <span class="methods"><a href="#developercompanies__developerCompanyId__put"><span class="badge badge_put">put</span></a></span></h4></div><div id="panel_developercompanies__developerCompanyId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#developercompanies__developerCompanyId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Updates a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can update that developer company.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies__developerCompanyId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent"></span>/developercompanies/{developerCompanyId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Updates a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can update that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies__developerCompanyId__put_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies__developerCompanyId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies__developerCompanyId__put_request"><h3>URI Parameters</h3><ul><li><strong>developerCompanyId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "developerCompany": {
+    "domain": "www.amazing.com",
+    "logoUrl": "Company Logo URL ",
+    "companySize": "100",
+    "appExperience": "Mobile apps",
+    "companySkillSet": "skill set",
+    "appPlatforms": "iOS,Windows",
+    "expectedAppFinishDate": "2013-03-26",
+    "contactEmail": "info@amazing.com"
+  }
+}
+</code></pre></div><div class="tab-pane" id="developercompanies__developerCompanyId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "developerCompany": {
+    "developerCompanyId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+    "name": "Amazing Inc.",
+    "domain": "www.amazing.com"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "DEVELOPER_COMPANY_NOT_FOUND",
+      "message": "A developer company with the specified developerCompanyId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="developercompanies__developercompanyId__approvaldecision" class="panel-title">/developercompanies/{developercompanyId}/approvaldecision</h3></div><div class="panel-body"><div class="top-resource-description"><p>It approves or rejects a developer company. If the developer company is approved the status of the developer company is changed to ACTIVE and if the developer company is rejected the status of the developer company is changed to REJECTED. An email is sent to the owner of the developer company with the approval decision. A developer company can be approved or rejected only if its current status is SUBMITTED.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_developercompanies__developercompanyId__approvaldecision"><span class="parent"></span>/developercompanies/{developercompanyId}/approvaldecision</a> <span class="methods"><a href="#developercompanies__developercompanyId__approvaldecision_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_developercompanies__developercompanyId__approvaldecision" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#developercompanies__developercompanyId__approvaldecision_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It approves or rejects a developer company. If the developer company is approved the status of the developer company is changed to ACTIVE and if the developer company is rejected the status of the developer company is changed to REJECTED. An email is sent to the owner of the developer company with the approval decision. A developer company can be approved or rejected only if its current status is SUBMITTED.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies__developercompanyId__approvaldecision_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/developercompanies/{developercompanyId}/approvaldecision</h4></div><div class="modal-body"><div class="alert alert-info"><p>It approves or rejects a developer company. If the developer company is approved the status of the developer company is changed to ACTIVE and if the developer company is rejected the status of the developer company is changed to REJECTED. An email is sent to the owner of the developer company with the approval decision. A developer company can be approved or rejected only if its current status is SUBMITTED.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies__developercompanyId__approvaldecision_post_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies__developercompanyId__approvaldecision_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies__developercompanyId__approvaldecision_post_request"><h3>URI Parameters</h3><ul><li><strong>developercompanyId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "developerCompanyStatus": {
+    "status": "ACTIVE",
+    "comment": "service has been approved"
+  }
+}
+</code></pre></div><div class="tab-pane" id="developercompanies__developercompanyId__approvaldecision_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "developerCompanyStatus": "  " }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The developer company can not be approved or rejected because its current status is not SUBMITTED."
+    }
+  }
+}           
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "DEVELOPER_COMPANY_NOT_FOUND",
+      "message": "A developer company with the specified developerCompanyId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="developercompanies__developerCompanyId__accounts" class="panel-title">/developercompanies/{developerCompanyId}/accounts</h3></div><div class="panel-body"><div class="top-resource-description"><p>Gets (aka reads or retrieves) all accounts associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_developercompanies__developerCompanyId__accounts"><span class="parent"></span>/developercompanies/{developerCompanyId}/accounts</a> <span class="methods"><a href="#developercompanies__developerCompanyId__accounts_get"><span class="badge badge_get">get</span></a> <a href="#developercompanies__developerCompanyId__accounts_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_developercompanies__developerCompanyId__accounts" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#developercompanies__developerCompanyId__accounts_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) all accounts associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#developercompanies__developerCompanyId__accounts_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It associates an account with a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies__developerCompanyId__accounts_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/developercompanies/{developerCompanyId}/accounts</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) all accounts associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies__developerCompanyId__accounts_get_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies__developerCompanyId__accounts_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies__developerCompanyId__accounts_get_request"><h3>URI Parameters</h3><ul><li><strong>developerCompanyId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="developercompanies__developerCompanyId__accounts_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "developerCompanyAccounts": {
+    "developerCompanyAccount": [
+      {
+        "account": {
+          "accountId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+          "username": "SuryaYadavallitest1@gmail.com",
+          "firstName": "Surya",
+          "lastName": "Yadavalli",
+          "middleName": "P"
+        },
+        "role": "ADMIN",
+        "owner": "true"
+      },
+      {
+        "account": {
+          "accountId": "46B0C97E-E8AB-4259-A299-16A3B974D6F0",
+          "username": "surya.yadavalli@gmail.com",
+          "firstName": "Surya",
+          "lastName": "Yadavalli",
+          "middleName": "L",
+          "alias": "Surya K"
+        },
+        "role": "BASIC",
+        "owner": "false"
+      }
+    ]
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "INVALID_SESSION_TOKEN",
+      "message": "The specified session/access token is not valid or has expired."
+    }
+  }
+}             
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies__developerCompanyId__accounts_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/developercompanies/{developerCompanyId}/accounts</h4></div><div class="modal-body"><div class="alert alert-info"><p>It associates an account with a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies__developerCompanyId__accounts_post_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies__developerCompanyId__accounts_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies__developerCompanyId__accounts_post_request"><h3>URI Parameters</h3><ul><li><strong>developerCompanyId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "developerCompanyAccount": {
+    "account": { "username": "xyz@gmail.com" },
+    "role": "BASIC"
+  }
+}
+</code></pre></div><div class="tab-pane" id="developercompanies__developerCompanyId__accounts_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "developerCompanyAccount": " " }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "DEVELOPER_COMPANY_ACCOUNT_ALREADY_EXISTS",
+      "message": "The specified account is already associated with the specified developer company."
+    }
+  }
+}       
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "DEVELOPER_COMPANY_NOT_FOUND",
+      "message": "The developer company with the specified developerCompanyID is not found."
+    }
+  }
+} 
+
+{
+  "errors": {
+    "error": {
+      "code": "ACCOUNT_NOT_FOUND",
+      "message": "The account with the specified username is not found."
+    }
+  }
+} 
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="developercompanies__developerCompanyId__accounts__username_" class="panel-title">/developercompanies/{developerCompanyId}/accounts/{username}</h3></div><div class="panel-body"><div class="top-resource-description"><p>Dissociates an account from a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. The {developerCompanyId} is a value that uniquely identifies a developer company. The {username} is a value that uniquely identifies an account. The {developerCompanyId} and {username} together uniquely identify a developer-company-account association.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_developercompanies__developerCompanyId__accounts__username_"><span class="parent"></span>/developercompanies/{developerCompanyId}/accounts/{username}</a> <span class="methods"><a href="#developercompanies__developerCompanyId__accounts__username__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_developercompanies__developerCompanyId__accounts__username_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#developercompanies__developerCompanyId__accounts__username__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Dissociates an account from a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. The {developerCompanyId} is a value that uniquely identifies a developer company. The {username} is a value that uniquely identifies an account. The {developerCompanyId} and {username} together uniquely identify a developer-company-account association.</p><p><b>NOTE:</b> An owner account can not be dissociated from the developer company.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies__developerCompanyId__accounts__username__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent"></span>/developercompanies/{developerCompanyId}/accounts/{username}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Dissociates an account from a specific developer company. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. The {developerCompanyId} is a value that uniquely identifies a developer company. The {username} is a value that uniquely identifies an account. The {developerCompanyId} and {username} together uniquely identify a developer-company-account association.</p><p><b>NOTE:</b> An owner account can not be dissociated from the developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies__developerCompanyId__accounts__username__delete_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies__developerCompanyId__accounts__username__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies__developerCompanyId__accounts__username__delete_request"><h3>URI Parameters</h3><ul><li><strong>developerCompanyId</strong>: <em>required (string)</em></li><li><strong>username</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="developercompanies__developerCompanyId__accounts__username__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "developerCompanyAccount": " " }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "DEVELOPER_COMPANY_ACCOUNT_ALREADY_EXISTS",
+      "message": "The specified account is already associated with the specified developer company."
+    }
+  }
+}      
+
+{
+  "errors": {
+    "error": {
+      "code": "DEVELOPER_COMPANY_OWNER_DISASSOCIATION_NOT_ALLOWED",
+      "message": "The specified account is the owner of the developer company and we do not allow dissociating an owner account from the developer company."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "DEVELOPER_COMPANY_NOT_FOUND",
+      "message": "The developer company with the specified developerCompanyID is not found."
+    }
+  }
+} 
+
+{
+  "errors": {
+    "error": {
+      "code": "ACCOUNT_NOT_FOUND",
+      "message": "The account with the specified username is not found."
+    }
+  }
+} 
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="developercompanies__developerCompanyId__services" class="panel-title">/developercompanies/{developerCompanyId}/services</h3></div><div class="panel-body"><div class="top-resource-description"><p>Gets (aka reads or retrieves) all services associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_SERVICE" can perform this operation for that developer company.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_developercompanies__developerCompanyId__services"><span class="parent"></span>/developercompanies/{developerCompanyId}/services</a> <span class="methods"><a href="#developercompanies__developerCompanyId__services_get"><span class="badge badge_get">get</span></a> <a href="#developercompanies__developerCompanyId__services_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_developercompanies__developerCompanyId__services" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#developercompanies__developerCompanyId__services_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) all services associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_SERVICE" can perform this operation for that developer company.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#developercompanies__developerCompanyId__services_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It creates a new service for the specified developer company. The initial status of the newly created service is <b>IN_DEVELOPMENT<b>. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</b></b></p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies__developerCompanyId__services_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/developercompanies/{developerCompanyId}/services</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) all services associated with the specified developer company. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_SERVICE" can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies__developerCompanyId__services_get_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies__developerCompanyId__services_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies__developerCompanyId__services_get_request"><h3>URI Parameters</h3><ul><li><strong>developerCompanyId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="developercompanies__developerCompanyId__services_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "services": {
+    "service": [
+      {
+        "serviceId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+        "friendlyName": "HMIS API  service",
+        "description": "HMIS API service description",
+        "licenseType": "NONE",
+        "status": "IN_DEVELOPMENT"
+      },
+      {
+        "serviceId": "ACEFB4904535-2C97-4BF2-AF61-22095B4D",
+        "friendlyName": "I am a sample service",
+        "description": "I am a sample service description",
+        "status": "ACTIVE"
+      }
+    ]
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "INVALID_SESSION_TOKEN",
+      "message": "The specified session/access token is not valid or has expired."
+    }
+  }
+}           
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="developercompanies__developerCompanyId__services_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/developercompanies/{developerCompanyId}/services</h4></div><div class="modal-body"><div class="alert alert-info"><p>It creates a new service for the specified developer company. The initial status of the newly created service is <b>IN_DEVELOPMENT<b>. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</b></b></p></div><ul class="nav nav-tabs"><li class="active"><a href="#developercompanies__developerCompanyId__services_post_request" data-toggle="tab">Request</a></li><li><a href="#developercompanies__developerCompanyId__services_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="developercompanies__developerCompanyId__services_post_request"><h3>URI Parameters</h3><ul><li><strong>developerCompanyId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "service": {
+    "friendlyName": "I am sample service",
+    "description": "I am sample service description",
+  }
+}
+</code></pre></div><div class="tab-pane" id="developercompanies__developerCompanyId__services_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "service": {
+    "serviceId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "INVALID_SESSION_TOKEN",
+      "message": "The specified session/access token is not valid or has expired."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NAME_ALREADY_EXISTS",
+      "message": "A service with the specified friendly name already exists. The friendly name of the service must be globally unique."
+    }
+  }
+}  
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="services__serviceId_" class="panel-title">/services/{serviceId}</h3></div><div class="panel-body"><div class="top-resource-description"><p>Gets (aka reads or retrieves) a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_services__serviceId_"><span class="parent"></span>/services/{serviceId}</a> <span class="methods"><a href="#services__serviceId__get"><span class="badge badge_get">get</span></a> <a href="#services__serviceId__put"><span class="badge badge_put">put</span></a> <a href="#services__serviceId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_services__serviceId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#services__serviceId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#services__serviceId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Updates a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.A service can be updated only if its status is IN_DEVELOPMENT.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#services__serviceId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Deletes a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. A service can be deleted only if its status is IN_DEVELOPMENT and there are no trustedApps associated.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="services__serviceId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/services/{serviceId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#services__serviceId__get_request" data-toggle="tab">Request</a></li><li><a href="#services__serviceId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="services__serviceId__get_request"><h3>URI Parameters</h3><ul><li><strong>serviceId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p></div><div class="tab-pane" id="services__serviceId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "service": {
+    "serviceId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+    "friendlyName": "sample service",
+    "description": "sample service description",
+    "status": "IN_DEVELOPMENT"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NOT_FOUND",
+      "message": "A service with the specified serviceId is not found."
+    }
+  }
+}  
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="services__serviceId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent"></span>/services/{serviceId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Updates a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.A service can be updated only if its status is IN_DEVELOPMENT.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#services__serviceId__put_request" data-toggle="tab">Request</a></li><li><a href="#services__serviceId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="services__serviceId__put_request"><h3>URI Parameters</h3><ul><li><strong>serviceId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "service": {
+    "friendlyName": "sample service",
+    "description": "sample service description"
+  }
+}
+</code></pre></div><div class="tab-pane" id="services__serviceId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "service": {
+    "serviceId": "ACEFB4904535-2C97-4BF2-AF61-22095B4D",
+    "friendlyName": "I am home service",
+    "description": "sample service description",
+    "status": "ACTIVE"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The service can not be updated because its status is not IN_DEVELOPMENT."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NOT_FOUND",
+      "message": "A service with the specified serviceId is not found."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NAME_ALREADY_EXISTS",
+      "message": "A service with the specified friendly name already exists. The friendly name of the service must be globally unique."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="services__serviceId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent"></span>/services/{serviceId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Deletes a specific service. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. A service can be deleted only if its status is IN_DEVELOPMENT and there are no trustedApps associated.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#services__serviceId__delete_request" data-toggle="tab">Request</a></li><li><a href="#services__serviceId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="services__serviceId__delete_request"><h3>URI Parameters</h3><ul><li><strong>serviceId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="services__serviceId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "service": "" }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The service can not be updated because its status is not IN_DEVELOPMENT."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NOT_FOUND",
+      "message": "A service with the specified serviceId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="services__serviceId__approvalsubmission" class="panel-title">/services/{serviceId}/approvalsubmission</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_services__serviceId__approvalsubmission"><span class="parent"></span>/services/{serviceId}/approvalsubmission</a> <span class="methods"><a href="#services__serviceId__approvalsubmission_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_services__serviceId__approvalsubmission" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#services__serviceId__approvalsubmission_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It submits the specified service for approval. The status of the service is changed to SUBMITTED and an email is sent to the owner of the developer company stating that the service has been submitted for approval. A service can be submitted for approval only if its status is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="services__serviceId__approvalsubmission_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/services/{serviceId}/approvalsubmission</h4></div><div class="modal-body"><div class="alert alert-info"><p>It submits the specified service for approval. The status of the service is changed to SUBMITTED and an email is sent to the owner of the developer company stating that the service has been submitted for approval. A service can be submitted for approval only if its status is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#services__serviceId__approvalsubmission_post_request" data-toggle="tab">Request</a></li><li><a href="#services__serviceId__approvalsubmission_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="services__serviceId__approvalsubmission_post_request"><h3>URI Parameters</h3><ul><li><strong>serviceId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{   "serviceStatus": {  "comment": "submitting service for approval."  } }
+</code></pre></div><div class="tab-pane" id="services__serviceId__approvalsubmission_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "serviceStatus": " " }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The service can not be updated because its status is not IN_DEVELOPMENT."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NOT_FOUND",
+      "message": "A service with the specified serviceId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="services__serviceId__approvaldecision" class="panel-title">/services/{serviceId}/approvaldecision</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_services__serviceId__approvaldecision"><span class="parent"></span>/services/{serviceId}/approvaldecision</a> <span class="methods"><a href="#services__serviceId__approvaldecision_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_services__serviceId__approvaldecision" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#services__serviceId__approvaldecision_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It approves or rejects a service. If the service is approved the status of the service is changed to ACTIVE and if the service is rejected the status of the service is changed to IN_DEVELOPMENT. An email is sent to the owner of the developer company with the approval decision. A service can be approved or rejected only if its current status is SUBMITTED.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="services__serviceId__approvaldecision_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/services/{serviceId}/approvaldecision</h4></div><div class="modal-body"><div class="alert alert-info"><p>It approves or rejects a service. If the service is approved the status of the service is changed to ACTIVE and if the service is rejected the status of the service is changed to IN_DEVELOPMENT. An email is sent to the owner of the developer company with the approval decision. A service can be approved or rejected only if its current status is SUBMITTED.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#services__serviceId__approvaldecision_post_request" data-toggle="tab">Request</a></li><li><a href="#services__serviceId__approvaldecision_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="services__serviceId__approvaldecision_post_request"><h3>URI Parameters</h3><ul><li><strong>serviceId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "serviceStatus": {
+    "status": "ACTIVE",
+    "comment": "service has been approved"
+  }
+}
+</code></pre></div><div class="tab-pane" id="services__serviceId__approvaldecision_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "serviceStatus": {
+    "status": "ACTIVE",
+    "comment": "service has been approved"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The service can not be updated because its status is not SUBMITTED."
+    }
+  }
+}      
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NOT_FOUND",
+      "message": "A service with the specified serviceId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="services__serviceId__trustedApps" class="panel-title">/services/{serviceId}/trustedApps</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_services__serviceId__trustedApps"><span class="parent"></span>/services/{serviceId}/trustedApps</a> <span class="methods"><a href="#services__serviceId__trustedApps_get"><span class="badge badge_get">get</span></a> <a href="#services__serviceId__trustedApps_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_services__serviceId__trustedApps" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#services__serviceId__trustedApps_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) all trustedApps associated with the specified service. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_CLIENT" can perform this operation for that developer company.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#services__serviceId__trustedApps_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It creates a new trustedApp for the specified service. The initial status of the newly created trustedApp is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="services__serviceId__trustedApps_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/services/{serviceId}/trustedApps</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) all trustedApps associated with the specified service. Only the accounts associated with a developer company in "ADMIN" role or any user with permission of "READ_ANY_CLIENT" can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#services__serviceId__trustedApps_get_request" data-toggle="tab">Request</a></li><li><a href="#services__serviceId__trustedApps_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="services__serviceId__trustedApps_get_request"><h3>URI Parameters</h3><ul><li><strong>serviceId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="services__serviceId__trustedApps_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "trustedApps": {
+    "trustedApp": [
+      {
+        "trustedAppId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+        "friendlyName": "Sample Trusted app1",
+        "description": "Sample Trusted app1 description",
+        "trustedAppSecret": "ajkdjledkaelanmcxsnjekldkleldfasfsd",
+        "logoUrl": "http://logos/logo1.png",
+        "trustedAppProfileType": "NATIVE",
+        "trustedAppFamilyType": "APP",
+        "refreshTokenSupported": "true",
+        "implicitGrantSupported": "false",
+        "authCodeGrantSupported": "true",
+        "status": "ACTIVE"
+      },
+      {
+        "trustedAppId": "ACEFB4904535-2C97-4BF2-AF61-22095B4D",
+        "friendlyName": "Sample Trusted app2",
+        "description": "Sample Trusted app2 description",
+        "trustedAppSecret": "ghgskhgklgwggwewfsjdfasf",
+        "logoUrl": "http://logos/logo1.png",
+        "trustedAppProfileType": "NATIVE",
+        "trustedAppFamilyType": "APP",
+        "refreshTokenSupported": "true",
+        "implicitGrantSupported": "false",
+        "authCodeGrantSupported": "true",
+        "status": "IN_DEVELOPMENT"
+      }
+    ]
+  }
+}  
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NOT_FOUND",
+      "message": "A service with the specified serviceId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="services__serviceId__trustedApps_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/services/{serviceId}/trustedApps</h4></div><div class="modal-body"><div class="alert alert-info"><p>It creates a new trustedApp for the specified service. The initial status of the newly created trustedApp is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#services__serviceId__trustedApps_post_request" data-toggle="tab">Request</a></li><li><a href="#services__serviceId__trustedApps_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="services__serviceId__trustedApps_post_request"><h3>URI Parameters</h3><ul><li><strong>serviceId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "trustedApp": {
+    "friendlyName": "sample trusted app",
+    "description": "sample trusted app description"
+  }
+}
+</code></pre></div><div class="tab-pane" id="services__serviceId__trustedApps_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "trustedApp": {
+    "trustedAppId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "SERVICE_NOT_FOUND",
+      "message": "A service with the specified serviceId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="trustedApps__trustedAppId_" class="panel-title">/trustedApps/{trustedAppId}</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_trustedApps__trustedAppId_"><span class="parent"></span>/trustedApps/{trustedAppId}</a> <span class="methods"><a href="#trustedApps__trustedAppId__get"><span class="badge badge_get">get</span></a> <a href="#trustedApps__trustedAppId__put"><span class="badge badge_put">put</span></a> <a href="#trustedApps__trustedAppId__delete"><span class="badge badge_delete">delete</span></a></span></h4></div><div id="panel_trustedApps__trustedAppId_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#trustedApps__trustedAppId__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#trustedApps__trustedAppId__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Updates a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. Only certain trustedApp fields can be updated if its status is not IN_DEVELOPMENT. See table below.</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#trustedApps__trustedAppId__delete'" class="list-group-item"><span class="badge badge_delete">delete</span><div class="method_description"><p>Deletes a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. A trustedApp can be deleted only if its status is IN_DEVELOPMENT.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="trustedApps__trustedAppId__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/trustedApps/{trustedAppId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#trustedApps__trustedAppId__get_request" data-toggle="tab">Request</a></li><li><a href="#trustedApps__trustedAppId__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="trustedApps__trustedAppId__get_request"><h3>URI Parameters</h3><ul><li><strong>trustedAppId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="trustedApps__trustedAppId__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+    "trustedApp":
+       {
+          "trustedAppTypeId":"631D1191-9AC5-4F3F-836A-8DB0DBAE3CD3",
+          "friendlyname":"Friendly Name_1437006937244",
+          "description":"Description",
+          "status":"IN_DEVELOPMENT",
+          "trustedAppSecret":"7432e99debbe4fd1af0ea6eb65b4f3e4"
+       
+       }      
+ }           
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "A trustedApp with the specified trustedAppId is not found."
+    }
+  }
+}  
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="trustedApps__trustedAppId__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent"></span>/trustedApps/{trustedAppId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Updates a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. Only certain trustedApp fields can be updated if its status is not IN_DEVELOPMENT. See table below.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#trustedApps__trustedAppId__put_request" data-toggle="tab">Request</a></li><li><a href="#trustedApps__trustedAppId__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="trustedApps__trustedAppId__put_request"><h3>URI Parameters</h3><ul><li><strong>trustedAppId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+    "trustedApp":
+       {
+          "trustedAppTypeId":"631D1191-9AC5-4F3F-836A-8DB0DBAE3CD3",
+          "friendlyname":"Friendly Name",
+          "description":"Description",
+          "status":"IN_DEVELOPMENT",
+          "trustedAppSecret":"7432e99debbe4fd1af0ea6eb65b4f3e4"
+       }      
+ }   
+</code></pre></div><div class="tab-pane" id="trustedApps__trustedAppId__put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+    "trustedApp":
+       {
+          "trustedAppTypeId":"631D1191-9AC5-4F3F-836A-8DB0DBAE3CD3",
+          "friendlyname":"Friendly Name",
+          "description":"Description",
+          "status":"IN_DEVELOPMENT",
+          "trustedAppSecret":"7432e99debbe4fd1af0ea6eb65b4f3e4",
+       }      
+ }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The trustedApp can not be updated because its current status is not IN_DEVELOPMENT."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "A trustedApp with the specified trustedAppId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="trustedApps__trustedAppId__delete"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_delete">delete</span> <span class="parent"></span>/trustedApps/{trustedAppId}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Deletes a specific trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company. A trustedApp can be deleted only if its status is IN_DEVELOPMENT.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#trustedApps__trustedAppId__delete_request" data-toggle="tab">Request</a></li><li><a href="#trustedApps__trustedAppId__delete_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="trustedApps__trustedAppId__delete_request"><h3>URI Parameters</h3><ul><li><strong>trustedAppId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="trustedApps__trustedAppId__delete_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{ "trustedApp": "" }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The trustedApp can not be updated because its current status is not IN_DEVELOPMENT."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "A trustedApp with the specified trustedAppId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="trustedApps__trustedAppId__trustedAppsecret" class="panel-title">/trustedApps/{trustedAppId}/trustedAppsecret</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_trustedApps__trustedAppId__trustedAppsecret"><span class="parent"></span>/trustedApps/{trustedAppId}/trustedAppsecret</a> <span class="methods"><a href="#trustedApps__trustedAppId__trustedAppsecret_put"><span class="badge badge_put">put</span></a></span></h4></div><div id="panel_trustedApps__trustedAppId__trustedAppsecret" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#trustedApps__trustedAppId__trustedAppsecret_put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>It generates a new trustedApp secret for the the specified trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="trustedApps__trustedAppId__trustedAppsecret_put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent"></span>/trustedApps/{trustedAppId}/trustedAppsecret</h4></div><div class="modal-body"><div class="alert alert-info"><p>It generates a new trustedApp secret for the the specified trustedApp. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#trustedApps__trustedAppId__trustedAppsecret_put_request" data-toggle="tab">Request</a></li><li><a href="#trustedApps__trustedAppId__trustedAppsecret_put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="trustedApps__trustedAppId__trustedAppsecret_put_request"><h3>URI Parameters</h3><ul><li><strong>trustedAppId</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="trustedApps__trustedAppId__trustedAppsecret_put_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "trustedApp": {
+    "trustedAppId": "22095B4D-2C97-4BF2-AF61-ACEFB4904535",
+    "trustedAppSecret": "ajkdjledkaelanmcxsnjekldkleldfasfsd"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "A trustedApp with the specified trustedAppId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="trustedApps__trustedAppId__approvalsubmission" class="panel-title">/trustedApps/{trustedAppId}/approvalsubmission</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_trustedApps__trustedAppId__approvalsubmission"><span class="parent"></span>/trustedApps/{trustedAppId}/approvalsubmission</a> <span class="methods"><a href="#trustedApps__trustedAppId__approvalsubmission_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_trustedApps__trustedAppId__approvalsubmission" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#trustedApps__trustedAppId__approvalsubmission_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It submits the specified trustedApp for approval. The status of the trustedApp is changed to SUBMITTED and an email is sent to the owner of the developer company stating that the trustedApp/app has been submitted for approval. A trustedApp can be submitted for approval only if its status is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="trustedApps__trustedAppId__approvalsubmission_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/trustedApps/{trustedAppId}/approvalsubmission</h4></div><div class="modal-body"><div class="alert alert-info"><p>It submits the specified trustedApp for approval. The status of the trustedApp is changed to SUBMITTED and an email is sent to the owner of the developer company stating that the trustedApp/app has been submitted for approval. A trustedApp can be submitted for approval only if its status is IN_DEVELOPMENT. Only the accounts associated with a developer company in "ADMIN" role can perform this operation for that developer company.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#trustedApps__trustedAppId__approvalsubmission_post_request" data-toggle="tab">Request</a></li><li><a href="#trustedApps__trustedAppId__approvalsubmission_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="trustedApps__trustedAppId__approvalsubmission_post_request"><h3>URI Parameters</h3><ul><li><strong>trustedAppId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+   "trustedAppStatus": {
+      "comment": "submitting IOS trustedApp for approval."
+    }
+}
+</code></pre></div><div class="tab-pane" id="trustedApps__trustedAppId__approvalsubmission_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{ "trustedAppStatus " : " "}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "TThe specified trustedApp can not be submitted for approval because its current status is not IN_DEVELOPMENT."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "A trustedApp with the specified trustedAppId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="trustedApps__trustedAppId__approvaldecision" class="panel-title">/trustedApps/{trustedAppId}/approvaldecision</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_trustedApps__trustedAppId__approvaldecision"><span class="parent"></span>/trustedApps/{trustedAppId}/approvaldecision</a> <span class="methods"><a href="#trustedApps__trustedAppId__approvaldecision_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_trustedApps__trustedAppId__approvaldecision" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#trustedApps__trustedAppId__approvaldecision_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It approves or rejects a trustedApp. If the trustedApp is approved the status of the trustedApp is changed to ACTIVE and if the trustedApp is rejected the status of the trustedApp is changed to IN_DEVELOPMENT. An email is sent to the owner of the developer company with the approval decision. User must have "MODIFY_ANY_TRUSTEDAPP_APPROVAL" permission to use this API. See user-level authroization permissions A trustedApp can be approved or rejected only if its current status is SUBMITTED.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="trustedApps__trustedAppId__approvaldecision_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/trustedApps/{trustedAppId}/approvaldecision</h4></div><div class="modal-body"><div class="alert alert-info"><p>It approves or rejects a trustedApp. If the trustedApp is approved the status of the trustedApp is changed to ACTIVE and if the trustedApp is rejected the status of the trustedApp is changed to IN_DEVELOPMENT. An email is sent to the owner of the developer company with the approval decision. User must have "MODIFY_ANY_TRUSTEDAPP_APPROVAL" permission to use this API. See user-level authroization permissions A trustedApp can be approved or rejected only if its current status is SUBMITTED.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#trustedApps__trustedAppId__approvaldecision_post_request" data-toggle="tab">Request</a></li><li><a href="#trustedApps__trustedAppId__approvaldecision_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="trustedApps__trustedAppId__approvaldecision_post_request"><h3>URI Parameters</h3><ul><li><strong>trustedAppId</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "trustedAppStatus": {
+    "status": "ACTIVE",
+    "comment": "trustedApp has been approved."
+  }
+}
+</code></pre></div><div class="tab-pane" id="trustedApps__trustedAppId__approvaldecision_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "trustedAppStatus": {
+    "status": "ACTIVE",
+    "comment": "trustedApp has been approved."
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ILLEGAL_STATE",
+      "message": "The trustedApp can not be approved because its current status is not SUBMITTED."
+    }
+  }
+}  
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "CLIENT_NOT_FOUND",
+      "message": "A trustedApp with the specified trustedAppId is not found."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="accounts" class="panel-title">All accounts</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_accounts"><span class="parent"></span>/accounts</a> <span class="methods"><a href="#accounts_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_accounts" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#accounts_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>It creates an account with the specified username and sends out an email to the user to verify the account creation. The initial status of the newly created account is PENDING. The status is changed to ACTIVE when the user verifies account creation by clicking the link embedded in the email. Only an ACTIVE account can log-in using the Create a session (Log-in) API.<br>It returns an error if an account with the specified username already exists.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="accounts_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/accounts</h4></div><div class="modal-body"><div class="alert alert-info"><p>It creates an account with the specified username and sends out an email to the user to verify the account creation. The initial status of the newly created account is PENDING. The status is changed to ACTIVE when the user verifies account creation by clicking the link embedded in the email. Only an ACTIVE account can log-in using the Create a session (Log-in) API.<br>It returns an error if an account with the specified username already exists.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#accounts_post_request" data-toggle="tab">Request</a></li><li><a href="#accounts_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="accounts_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{ "account":{
+        "username":"username_1436679989664@hmis.com",
+        "emailAddress":"test@test.com",
+        "password":"password",
+        "firstName":"First Name",
+        "middleName":"Middle Name",
+        "lastName":"Last Name",
+        "gender":"Male",
+     }
+  } 
+</code></pre></div><div class="tab-pane" id="accounts_post_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "account": {
+    "accountId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+    "username": "username_1436679989664@hmis.com"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>An account with the specified username already exists.</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ACCOUNT ALREADY_EXISTS",
+      "message": "an account with the specified username already exists. username: username_1436679989664@hmis.com"
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="account__username_" class="panel-title">A specific account</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_account__username_"><span class="parent"></span>/account/{username}</a> <span class="methods"><a href="#account__username__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_account__username_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#account__username__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) a specific account.<br><br>GET /accounts/{username} <b></b></p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="account__username__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/account/{username}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) a specific account.<br><br>GET /accounts/{username} <b></b></p></div><ul class="nav nav-tabs"><li class="active"><a href="#account__username__get_request" data-toggle="tab">Request</a></li><li><a href="#account__username__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="account__username__get_request"><h3>URI Parameters</h3><ul><li><strong>username</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="account__username__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Successfully retrieved resource(s)</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{ "account":{
+      "accountId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+      "username":"username_1436679989664@hmis.com",
+      "emailAddress":"test@test.com",
+      "firstName":"First Name",
+      "middleName":"Middle Name",
+      "lastName":"Last Name"
+    }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ACCESS_DENIED",
+      "message": "Access denied"
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="account__username__status" class="panel-title">A specific account</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_account__username__status"><span class="parent"></span>/account/{username}/status</a> <span class="methods"><a href="#account__username__status_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_account__username__status" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#account__username__status_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) the current status of an account. An account&#39;s status can be NONEXISTENT, PENDING, ACTIVE or DISABLED. The {username} is a value that uniquely identifies an account.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="account__username__status_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/account/{username}/status</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) the current status of an account. An account&#39;s status can be NONEXISTENT, PENDING, ACTIVE or DISABLED. The {username} is a value that uniquely identifies an account.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#account__username__status_get_request" data-toggle="tab">Request</a></li><li><a href="#account__username__status_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="account__username__status_get_request"><h3>URI Parameters</h3><ul><li><strong>username</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="account__username__status_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "account": { "status": "ACTIVE" } }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "INVALID_CLIENT_TYPE",
+      "message": "The specified client type does not exists or is not active."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="accounts__username__passwordchanges" class="panel-title">Change password for an account</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_accounts__username__passwordchanges"><span class="parent"></span>/accounts/{username}/passwordchanges</a> <span class="methods"><a href="#accounts__username__passwordchanges_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_accounts__username__passwordchanges" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#accounts__username__passwordchanges_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Changes password for an account. To change the password, the user must be logged-in and provide his/her current password. The {username} is a value that uniquely identifies an account. To change the password of the currently logged-in user, the {username} can be replaced by <b>self</b> keyword in the URL as shown below. <b>POST</b> /accounts/self/passwordchanges</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="accounts__username__passwordchanges_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/accounts/{username}/passwordchanges</h4></div><div class="modal-body"><div class="alert alert-info"><p>Changes password for an account. To change the password, the user must be logged-in and provide his/her current password. The {username} is a value that uniquely identifies an account. To change the password of the currently logged-in user, the {username} can be replaced by <b>self</b> keyword in the URL as shown below. <b>POST</b> /accounts/self/passwordchanges</p></div><ul class="nav nav-tabs"><li class="active"><a href="#accounts__username__passwordchanges_get_request" data-toggle="tab">Request</a></li><li><a href="#accounts__username__passwordchanges_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="accounts__username__passwordchanges_get_request"><h3>URI Parameters</h3><ul><li><strong>username</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "passwordChange": {
+    "currentPassword": "testpwd3",
+    "newPassword": "testpwd4"
+  }
+}
+</code></pre></div><div class="tab-pane" id="accounts__username__passwordchanges_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "passwordChange": "" }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "INVALID_CURRENT_PASSWORD",
+      "message": "The specified currentPassword does not match with the password stored in the database."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="accounts__username__passwordresets" class="panel-title">Change password for an account</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_accounts__username__passwordresets"><span class="parent"></span>/accounts/{username}/passwordresets</a> <span class="methods"><a href="#accounts__username__passwordresets_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_accounts__username__passwordresets" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#accounts__username__passwordresets_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Resets password for an account. It sends out an email notification to the user to verify the password reset. The new password becomes effective only after it has been verified by the user. It returns an error if an account with the specified username does not exist OR the account has been DISABLED.<br>The {username} is a value that uniquely identifies an account.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="accounts__username__passwordresets_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/accounts/{username}/passwordresets</h4></div><div class="modal-body"><div class="alert alert-info"><p>Resets password for an account. It sends out an email notification to the user to verify the password reset. The new password becomes effective only after it has been verified by the user. It returns an error if an account with the specified username does not exist OR the account has been DISABLED.<br>The {username} is a value that uniquely identifies an account.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#accounts__username__passwordresets_get_request" data-toggle="tab">Request</a></li><li><a href="#accounts__username__passwordresets_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="accounts__username__passwordresets_get_request"><h3>URI Parameters</h3><ul><li><strong>username</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="accounts__username__passwordresets_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{  "passwordReset": "" }
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ACCOUNT_DISABLED",
+      "message": "The account has been disabled."
+    }
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ACCOUNT_NOT_FOUND",
+      "message": "An account with the specified username does not exist."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="accounts__username__basicinfo" class="panel-title">Get basic information of an account</h3></div><div class="panel-body"><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_accounts__username__basicinfo"><span class="parent"></span>/accounts/{username}/basicinfo</a> <span class="methods"><a href="#accounts__username__basicinfo_get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_accounts__username__basicinfo" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#accounts__username__basicinfo_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Gets (aka reads or retrieves) the basic information (i.e. accountId, firstName, lastName, and middleName) of the specified account. The {username} is a value that uniquely identifies an account. To get the account of the currently logged-in user, the<username>can be replaced by self keyword in the URL as shown below.</username></p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="accounts__username__basicinfo_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/accounts/{username}/basicinfo</h4></div><div class="modal-body"><div class="alert alert-info"><p>Gets (aka reads or retrieves) the basic information (i.e. accountId, firstName, lastName, and middleName) of the specified account. The {username} is a value that uniquely identifies an account. To get the account of the currently logged-in user, the<username>can be replaced by self keyword in the URL as shown below.</username></p></div><ul class="nav nav-tabs"><li class="active"><a href="#accounts__username__basicinfo_get_request" data-toggle="tab">Request</a></li><li><a href="#accounts__username__basicinfo_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="accounts__username__basicinfo_get_request"><h3>URI Parameters</h3><ul><li><strong>username</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="accounts__username__basicinfo_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "account": {
+    "accountId": "AA8F9FD9-532D-4D59-B397-5D94CEC6A868",
+    "firstName": "firstName",
+    "lastName": "lastName",
+    "middleName": "middleName"
+  }
+}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/403" target="_blank">403</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "errors": {
+    "error": {
+      "code": "ACCESS_DENIED",
+      "message": "only self is allowed as the username in the URI."
+    }
+  }
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#authorize">Authorization Endpoint</a></li><li><a href="#token">Token Endpoint</a></li><li><a href="#revoke">Revocation Request</a></li><li><a href="#clients__clientId__consentmessages">Consent Message</a></li><li><a href="#clients__clientId__detailedconsentmessages">/clients/{clientId}/detailedconsentmessages</a></li><li><a href="#developercompanies">Get all developer companies</a></li><li><a href="#developercompanies__developerCompanyId_">Update a developer Company</a></li><li><a href="#developercompanies__developercompanyId__approvaldecision">/developercompanies/{developercompanyId}/approvaldecision</a></li><li><a href="#developercompanies__developerCompanyId__accounts">/developercompanies/{developerCompanyId}/accounts</a></li><li><a href="#developercompanies__developerCompanyId__accounts__username_">/developercompanies/{developerCompanyId}/accounts/{username}</a></li><li><a href="#developercompanies__developerCompanyId__services">/developercompanies/{developerCompanyId}/services</a></li><li><a href="#services__serviceId_">/services/{serviceId}</a></li><li><a href="#services__serviceId__approvalsubmission">/services/{serviceId}/approvalsubmission</a></li><li><a href="#services__serviceId__approvaldecision">/services/{serviceId}/approvaldecision</a></li><li><a href="#services__serviceId__trustedApps">/services/{serviceId}/trustedApps</a></li><li><a href="#trustedApps__trustedAppId_">/trustedApps/{trustedAppId}</a></li><li><a href="#trustedApps__trustedAppId__trustedAppsecret">/trustedApps/{trustedAppId}/trustedAppsecret</a></li><li><a href="#trustedApps__trustedAppId__approvalsubmission">/trustedApps/{trustedAppId}/approvalsubmission</a></li><li><a href="#trustedApps__trustedAppId__approvaldecision">/trustedApps/{trustedAppId}/approvaldecision</a></li><li><a href="#accounts">All accounts</a></li><li><a href="#account__username_">A specific account</a></li><li><a href="#account__username__status">A specific account</a></li><li><a href="#accounts__username__passwordchanges">Change password for an account</a></li><li><a href="#accounts__username__passwordresets">Change password for an account</a></li><li><a href="#accounts__username__basicinfo">Get basic information of an account</a></li></ul></div></div></div></div></body></html>
