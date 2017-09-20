@@ -10,6 +10,4 @@ Wiki, code, and documentation for the Coordinated Entry System (CES) components 
 
 For discussion of the HMIS API, please see the [HMIS API Discussion Group](https://groups.google.com/forum/#!forum/hmis-api).  Please note that that discussion group is vendor-neutral: it is for discussing requests, responses, and endpoints, not specific products or business goals.
 
-For full API documentation, please see [the reference](https://anypoint.mulesoft.com/apiplatform/apis/#/portals/organizations/1d2d1eb1-46af-4ee8-aa04-bd79ed2764a3/apis/62269/versions/64666).
-
-API markup repositories are [here](https://github.com/hmis-api/).
+For full API documentation, please see [the reference](https://github.com/servinglynk/hmis-lynk-open-source-docs/wiki/HSLynk-API-Documentation).  API markup repositories are [here](https://github.com/hmis-api/).
