@@ -5,7 +5,7 @@ open source health and human services data warehouse
 
 This repo only contains wiki documentation, and issue tracking for the HSLynk Open HMIS Data Warehouse project.  
 
-The actual runnable HMIS and human services warehouse code is [here](https://github.com/servinglynk/hmis-lynk-open-source).
+The actual deployable HMIS and human services warehouse code is [here](https://github.com/servinglynk/hmis-lynk-open-source).
 
 Wiki, code, and documentation for the Coordinated Entry System (CES) components are [here](https://github.com/hserv/coordinated-entry).
 
