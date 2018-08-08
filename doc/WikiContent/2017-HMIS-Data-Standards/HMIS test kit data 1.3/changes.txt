@@ -1,0 +1,32 @@
+HMIS Test Kit change log
+
+
+1.3
+===
+
+- Inventory row 10 now shows 1 YouthBedInventory and 0 VetBedInventory, instead of the other way around, which did not make sense.
+
+- Columns that should be Date and not DateTime no longer include a time portion of 00:00:00. 
+
+- Removed extra rows from EmploymentEducation.csv that specified data collection points 2 or 5, which are not required by HMIS.  
+
+- Removed a duplicate record from EmploymentEducation.csv
+
+- Removed duplicate rows from Services.csv
+
+- Removed rows from Disabilities.csv that no longer have corresponding exit.
+ 
+- Replaced missing headers from empty Affiliate.csv
+
+
+1.2
+===
+
+- Removed duplicate rows from EnrollmentCoC.csv
+
+- Removed extra rows from EmploymentEducation.csv (rows that referenced EnrollmentIDs not included on other files).
+
+- Swapped order of DateDeleted and UserID columns in Client.csv to correspond with the order listed in CSV specification.
+
+- Swapped order of EnrollmentID and PersonalID columns in HealthAndDV.csv to correspond with the order listed in CSV specification.
+
