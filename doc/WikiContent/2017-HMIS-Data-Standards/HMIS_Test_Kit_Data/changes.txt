@@ -1,5 +1,9 @@
 HMIS Test Kit change log
 
+1.4
+===
+- Minor Changes to PDDE files, such as putting in fake values for Geography.Address1, to prevent validation errors.
+
 
 1.3
 ===
