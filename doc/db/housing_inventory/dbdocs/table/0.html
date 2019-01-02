@@ -1,0 +1,689 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN""http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>batch_process</title>
+		<link rel="stylesheet" type="text/css" href="../stylesheet.css" title="Style">
+	</head>
+<script>
+function asd() {
+	parent.document.title="batch_process";
+}
+</script>
+
+	<body onload="asd();">
+
+		<!-- ========== START OF NAVBAR ========== -->
+		<table border="0" width="100%" cellpadding="1" cellspacing="0">
+			<tr>
+				<td colspan="3" class="NavBarCell1">
+					<table border="0" cellpadding="0" cellspacing="3">
+						<tr align="center" valign="top">
+							<td class="NavBarCell1">
+								<a href="../overview-summary.html">Overview</a>&nbsp;
+							</td>
+							<td class="NavBarCell1">
+								<a href="package-summary.html">Object type</a>&nbsp;
+							</td>
+							<td class="NavBarCell1Rev"> &nbsp;
+								Table&nbsp;
+							</td>
+							<td class="NavBarCell1">
+								<a href="../help-doc.html">Help</a>&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="NavBarCell2">
+					&nbsp;<b>PREV Table</b>&nbsp;&nbsp;
+					&nbsp;<a HREF="1.html" ><b>NEXT Table</b></a>&nbsp;&nbsp;
+				</td>
+				<td class="NavBarCell2">
+					<a href="../index.html" target="_top">FRAMES</a>
+					&nbsp;&nbsp;&nbsp;
+					<a href="0.html" target="_top">NO FRAMES</a>
+					&nbsp;&nbsp;&nbsp;
+					<script>
+					<!--
+						if(window==top) {
+							document.writeln('<a href="../allclasses.html" target="">All Objects</a>');
+						}
+					//-->
+					</script>
+					<noscript>
+						<a href="../allclasses.html" target="">All Objects</a>
+					</noscript>
+				</td>
+			</tr>
+		</table>
+		<!-- =========== END OF NAVBAR =========== -->
+
+		<hr>
+		<a name="main"></a>
+		<h2>Table   batch_process</h2>
+		<hr>
+
+
+<dl>
+	<dt><b>Physical Name:</b></dt>
+		<dd>batch_process<br><br></dd>
+</dl>
+
+<dl>
+	<dt><b>Constraint:</b></dt>
+		<dd><br><br></dd>
+</dl>
+
+<pre style="font-size:1em;">
+
+</pre>
+
+<p>
+
+<!-- ======== Attribute ======== -->
+
+<a name="attribute_summary"></a>
+
+<table border="1" cellpadding="3" cellspacing="0" width="100%" class="AttributeTable">
+	<tr class="TableHeadingColor">
+		<th colspan="7">Attribute Summary</th>
+	</tr>
+	<tr class="TableSubHeadingColor">
+		<th>PK</th>
+		<th>FK</th>
+		<th>Logical Name</th>
+		<th>Physical Name</th>
+		<th>Type</th>
+		<th>UNIQUE</th>
+		<th>NOT NULL</th>
+	</tr>
+	<tr>
+	<tr>
+	<td align="center"><img src="../image/icons/pkey.gif">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#117">id</a>&nbsp;</td>
+	<td>id&nbsp;</td>
+	<td>uuid&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">NOT NULL&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#118">initiate_by</a>&nbsp;</td>
+	<td>initiate_by&nbsp;</td>
+	<td>varchar&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#119">status</a>&nbsp;</td>
+	<td>status&nbsp;</td>
+	<td>varchar&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#120">error_message</a>&nbsp;</td>
+	<td>error_message&nbsp;</td>
+	<td>varchar&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#121">project_group_code</a>&nbsp;</td>
+	<td>project_group_code&nbsp;</td>
+	<td>varchar(255)&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#122">date_created</a>&nbsp;</td>
+	<td>date_created&nbsp;</td>
+	<td>timestamp&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#123">date_updated</a>&nbsp;</td>
+	<td>date_updated&nbsp;</td>
+	<td>timestamp&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#124">user_id</a>&nbsp;</td>
+	<td>user_id&nbsp;</td>
+	<td>uuid&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#125">started_at</a>&nbsp;</td>
+	<td>started_at&nbsp;</td>
+	<td>timestamp&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#126">completed_at</a>&nbsp;</td>
+	<td>completed_at&nbsp;</td>
+	<td>timestamp&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#127">is_processing</a>&nbsp;</td>
+	<td>is_processing&nbsp;</td>
+	<td>int&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+<tr>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td><a href="#128">process_type</a>&nbsp;</td>
+	<td>process_type&nbsp;</td>
+	<td>varchar(32)&nbsp;</td>
+	<td align="center">&nbsp;</td>
+	<td align="center">&nbsp;</td>
+</tr>
+
+	</tr>
+</table>
+
+<p>
+
+<!-- ========== FOREIGN KEY =========== -->
+
+<a name="foreign_key"><!-- --></a>
+<table border="1" cellpadding="3" cellspacing="0" width="100%" class="AttributeTable">
+	<tr class="TableHeadingColor">
+		<th colspan="7">Foreign Key</th>
+	</tr>
+	<tr class="TableSubHeadingColor">
+		<th width="12">Attribute</th>
+		<th width="28%">Referenced Table</th>
+		<th width="12%">Referenced Key</th>
+		<th width="12%">ON UPDATE</th>
+		<th width="12%">ON DELETE</th>
+		<th width="12%">Cardinality of parent</th>
+		<th width="12%">Cardinality of child</th>
+	</tr>
+	
+</table>
+
+<p>
+
+<!-- ========== REFERENCE KEY =========== -->
+
+<a name="reference_key"><!-- --></a>
+<table border="1" cellpadding="3" cellspacing="0" width="100%" class="AttributeTable">
+	<tr class="TableHeadingColor">
+		<th colspan="7">Referenced Key</th>
+	</tr>
+	<tr class="TableSubHeadingColor">
+		<th width="12">Attribute</th>
+		<th width="28%">Table</th>
+		<th width="12%">Foreign Key</th>
+		<th width="12%">ON UPDATE</th>
+		<th width="12%">ON DELETE</th>
+		<th width="12%">Cardinality of parent</th>
+		<th width="12%">Cardinality of child</th>
+	</tr>
+	
+</table>
+
+<p>
+
+<!-- ========== Complex Unique Key =========== -->
+
+<a name="complex_unique_key"><!-- --></a>
+<table border="1" cellpadding="3" cellspacing="0" width="100%" class="AttributeTable">
+	<tr class="TableHeadingColor">
+		<th colspan="1">Complex Unique Key</th>
+	</tr>
+	<tr class="TableSubHeadingColor">
+		<th>&nbsp;</th>
+		
+	</tr>
+	
+</table>
+
+
+
+<p>
+
+<!-- ========== INDEX SUMMARY =========== -->
+
+<a name="index_summary"><!-- --></a>
+<table border="1" cellpadding="3" cellspacing="0" width="100%" class="AttributeTable">
+	<tr class="TableHeadingColor">
+		<th colspan="3">Index Summary</th>
+	</tr>
+	<tr class="TableSubHeadingColor">
+		<th>Index Name</th>
+		<th>Type</th>
+		<th>UNIQUE</th>
+	</tr>
+	<tr>
+	<td><a href="../index/17.html">UK&nbsp;</a></td>
+	<td align="center">BTREE&nbsp;</td>
+	<td align="center">UNIQUE&nbsp;</td>
+</tr>
+
+</table>
+
+<p>
+
+<table border="1" cellpadding="3" cellspacing="0" width="100%">
+	<tr class="TableSubHeadingColor">
+		<th>&nbsp;</th>
+				<th>UK&nbsp;</th>
+
+	</tr>
+		<tr>
+		<th class="TableSubHeadingColor" align="left">id&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">initiate_by&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">status&nbsp;</th>
+				<td align="center">1&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">error_message&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">project_group_code&nbsp;</th>
+				<td align="center">2&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">date_created&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">date_updated&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">user_id&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">started_at&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">completed_at&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">is_processing&nbsp;</th>
+				<td align="center">3&nbsp;</td>
+
+	</tr>
+	<tr>
+		<th class="TableSubHeadingColor" align="left">process_type&nbsp;</th>
+				<td align="center">&nbsp;</td>
+
+	</tr>
+
+</table>
+
+
+
+
+
+<p>
+
+<!-- ============ ATTRIBUTE DETAIL =========== -->
+
+<a name="attribute_detail"></a>
+<table border="1" cellpadding="3" cellspacing="0" width="100%" class="AttributeTable">
+	<tr class="TableHeadingColor">
+		<th>Attribute Detail</th>
+	</tr>
+</table>
+
+<a name="117"></a>
+<h3><img src="../image/icons/pkey.gif">  id</h3>
+
+<dl>
+	<dd>id
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>TRUE<br></dt>
+		<dt><b>Type : </b>uuid<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="118"></a>
+<h3>  initiate_by</h3>
+
+<dl>
+	<dd>initiate_by
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>varchar<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="119"></a>
+<h3>  status</h3>
+
+<dl>
+	<dd>status
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>varchar<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="120"></a>
+<h3>  error_message</h3>
+
+<dl>
+	<dd>error_message
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>varchar<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="121"></a>
+<h3>  project_group_code</h3>
+
+<dl>
+	<dd>project_group_code
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>varchar(255)<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="122"></a>
+<h3>  date_created</h3>
+
+<dl>
+	<dd>date_created
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>timestamp<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="123"></a>
+<h3>  date_updated</h3>
+
+<dl>
+	<dd>date_updated
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>timestamp<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="124"></a>
+<h3>  user_id</h3>
+
+<dl>
+	<dd>user_id
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>uuid<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="125"></a>
+<h3>  started_at</h3>
+
+<dl>
+	<dd>started_at
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>timestamp<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="126"></a>
+<h3>  completed_at</h3>
+
+<dl>
+	<dd>completed_at
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>timestamp<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="127"></a>
+<h3>  is_processing</h3>
+
+<dl>
+	<dd>is_processing
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>int<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b>1<br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+<a name="128"></a>
+<h3>  process_type</h3>
+
+<dl>
+	<dd>process_type
+	<p>
+	<dd><pre></pre>
+	<p>
+	<dl>
+		<dt><b>UNIQUE : </b>FALSE<br></dt>
+		<dt><b>NOT NULL : </b>FALSE<br></dt>
+		<dt><b>Type : </b>varchar(32)<br></dt>
+		<dt><b>AUTO INCREMENT : </b>FALSE<br></dt>
+		<dt><b>Default Value : </b><br></dt>
+		<dt><b>Constraint : </b><br></dt>
+	</dl>
+</dl>
+
+<p>
+
+<hr>
+
+
+
+
+		<!-- ========== START OF NAVBAR ========== -->
+		<table border="0" width="100%" cellpadding="1" cellspacing="0">
+			<tr>
+				<td colspan="3" class="NavBarCell1">
+					<table border="0" cellpadding="0" cellspacing="3">
+						<tr align="center" valign="top">
+							<td class="NavBarCell1">
+								<a href="../overview-summary.html">Overview</a>&nbsp;
+							</td>
+							<td class="NavBarCell1">
+								<a href="package-summary.html">Object type</a>&nbsp;
+							</td>
+							<td class="NavBarCell1Rev"> &nbsp;
+								Table&nbsp;
+							</td>
+							<td class="NavBarCell1">
+								<a href="../help-doc.html">Help</a>&nbsp;
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="NavBarCell2">
+					&nbsp;<b>PREV Table</b>&nbsp;&nbsp;
+					&nbsp;<a HREF="1.html" ><b>NEXT Table</b></a>&nbsp;&nbsp;
+				</td>
+				<td class="NavBarCell2">
+					<a href="../index.html" target="_top">FRAMES</a>
+					&nbsp;&nbsp;&nbsp;
+					<a href="0.html" target="_top">NO FRAMES</a>
+					&nbsp;&nbsp;&nbsp;
+					<script>
+					<!--
+						if(window==top) {
+							document.writeln('<a href="../allclasses.html" target="">All Objects</a>');
+						}
+					//-->
+					</script>
+					<noscript>
+						<a href="../allclasses.html" target="">All Objects</a>
+					</noscript>
+				</td>
+			</tr>
+		</table>
+		<!-- =========== END OF NAVBAR =========== -->
+
+		<hr>
+
+	</body>
+</HTML>
