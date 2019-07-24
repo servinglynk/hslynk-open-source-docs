@@ -1,0 +1,262 @@
+---
+title: "APR Unit Testing"
+author: "Genelle Denzin"
+date: "7/23/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(gt)
+```
+
+## Q5 Report Validations
+
+```{r q5}
+
+q5.1 <- "Total number of persons served"
+q5.2 <- "Number of adults (age 18 or over)"
+q5.3 <- "Number of children (under age 18)"
+q5.4 <- "Number of persons with unknown age"
+q5.5 <- "Number of leavers"
+q5.6 <- "Number of adult leavers"
+q5.7 <- "Number of adult and head of household leavers"
+q5.8 <- "Number of stayers"
+q5.9 <- "Number of adult stayers"
+q5.10 <- "Number of veterans"
+q5.11 <- "Number of chronically homeless persons"
+q5.12 <- "Number of youth under age 25"
+q5.13 <- "Number of parenting youth under age 25 with children"
+q5.14 <- "Number of adults heads of household"
+q5.15 <- "Number of child and unknown-age heads of household"
+q5.16 <- "Heads of households and adult stayers in the project 365 days or more"
+
+Q5 <- as.data.frame(
+  c(
+    paste(q5.1, ">=", q5.2),
+    paste(q5.1, ">=", q5.3),
+    paste(q5.1, ">=", q5.4),
+    paste(q5.1, ">=", q5.5),
+    paste(q5.1, ">=", q5.6),
+    paste(q5.1, ">=", q5.7),
+    paste(q5.1, ">=", q5.8),
+    paste(q5.1, ">=", q5.9),
+    paste(q5.1, ">=", q5.10),
+    paste(q5.1, ">=", q5.11),
+    paste(q5.1, ">=", q5.12),
+    paste(q5.1, ">=", q5.13),
+    paste(q5.1, ">=", q5.14),
+    paste(q5.1, ">=", q5.15),
+    paste(q5.1, ">=", q5.16),
+    paste(q5.2, "+", q5.3, "+", q5.4, "=", q5.1),
+    paste(q5.12, ">=", q5.13)
+  )
+)
+
+colnames(Q5) <- "Q5"
+
+gt(Q5) %>%
+  cols_align(
+    align = "left")
+
+```
+
+
+## Q6 
+
+```{r q6}
+Q6a.2b <- "Name (3.01) Client DKR"
+Q6a.3b <- "SSN (3.02) Client DKR"
+Q6a.4b <- "Date of Birth (3.03) Client DKR"
+Q6a.5b <- "Race (3.04) Client DKR"
+Q6a.6b <- "Ethnicity (3.05) Client DKR"
+Q6a.7b <- "Gender (3.06) Client DKR"
+Q6a.2c <- "Name (3.01) Information Missing"
+Q6a.3c <- "SSN (3.02) Information Missing"
+Q6a.4c <- "Date of Birth (3.03) Information Missing"
+Q6a.5c <- "Race (3.04) Information Missing"
+Q6a.6c <- "Ethnicity (3.05) Information Missing"
+Q6a.7c <- "Gender (3.06) Information Missing"
+Q6a.2d <- "Name (3.01) Data Issues"
+Q6a.3d <- "SSN (3.02) Data Issues"
+Q6a.4d <- "Date of Birth (3.03) Data Issues"
+Q6a.2e <- "Name (3.01) Total"
+Q6a.3e <- "SSN (3.02) Total"
+Q6a.4e <- "Date of Birth (3.03) Total"
+Q6a.5e <- "Race (3.04) Total"
+Q6a.6e <- "Ethnicity (3.05) Total"
+Q6a.7e <- "Gender (3.06) Total"
+Q6a.8e <- "Overall Score Total"
+Q6a.2f <- "Name (3.01) Error Rate"
+Q6a.3f <- "SSN (3.02) Error Rate"
+Q6a.4f <- "Date of Birth (3.03) Error Rate"
+Q6a.5f <- "Race (3.04) Error Rate"
+Q6a.6f <- "Ethnicity (3.05) Error Rate"
+Q6a.7f <- "Gender (3.06) Error Rate"
+Q6a.8f <- "Overall Score Error Rate"
+
+Q6b.2b <- "Veteran Status (3.07) Error Count"
+Q6b.2c <- "Veteran Status (3.07) Error Rate"
+Q6b.3b <- "Project Start Date (3.10) Error Count"
+Q6b.3c <- "Project Start Date (3.10) Error Rate"
+Q6b.4b <- "Relationship to Head of Household (3.15) Error Count"
+Q6b.4c <- "Relationship to Head of Household (3.15) Error Rate"
+Q6b.5b <- "Client Location (3.16) Error Count"
+Q6b.5c <- "Client Location (3.16) Error Rate"
+Q6b.6b <- "Disabling Condition (3.08) Error Count"
+Q6b.6c <- "Disabling Condition (3.08) Error Rate"
+
+Q6c.2 <- "Destination (3.12)"
+Q6c.3 <- "Income and Sources (4.02) at Start"
+Q6c.4 <- "Income and Sources (4.02) at Annual Assessment"
+Q6c.5 <- "Income and Sources (4.02) at Exit"
+
+
+
+
+```
+
+
+## Q7 
+
+```{r q7}
+
+
+
+```
+
+
+## Q8 
+
+```{r q8}
+
+
+
+```
+
+
+## Q9 
+
+```{r q9}
+
+
+
+```
+
+
+## Q10 
+
+```{r q10}
+
+
+
+```
+
+
+## Q11 
+
+```{r q11}
+
+
+
+```
+
+
+## Q12 
+
+```{r q12}
+
+
+
+```
+
+
+## Q13 
+
+```{r q13}
+
+
+
+```
+
+
+## Q14 
+
+```{r q14}
+
+
+
+```
+
+
+## Q15 
+
+```{r q15}
+
+
+
+```
+
+
+## Q16 
+
+```{r q16}
+
+
+
+```
+
+
+## Q17 
+
+```{r q17}
+
+
+
+```
+
+
+## Q18 
+
+```{r q18}
+
+
+
+```
+
+
+## Q19
+
+```{r q19}
+
+
+
+```
+
+
+## Q20 
+
+```{r q20}
+
+
+
+```
+
+
+## Q21 
+
+```{r q21}
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
