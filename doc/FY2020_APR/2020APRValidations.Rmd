@@ -2,7 +2,8 @@
 title: "APR Unit Testing"
 author: "Genelle Denzin"
 date: "7/23/2019"
-output: html_document
+output: html_document:
+  keep_md: true
 ---
 
 ```{r setup, include=FALSE}
