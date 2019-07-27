@@ -3,8 +3,7 @@ title: "APR Unit Testing"
 author: "Genelle Denzin"
 date: "7/23/2019"
 output:
-  html_document:
-    keep_md: TRUE
+  md_document
 ---
 
 ```{r setup, include=FALSE}
@@ -166,12 +165,12 @@ Q6 <- as.data.frame(
     paste(Q6a.5b, "+", Q6a.5c, "<=", Q6a.5e),
     paste(Q6a.6b, "+", Q6a.6c, "<=", Q6a.6e),
     paste(Q6a.7b, "+", Q6a.7c, "<=", Q6a.7e),
-    paste("(", Q6a.2b, "+", Q6a.2c, "+", Q6a.2d, ")/", Q6a.2e, "=", Q6a.2f),
-    paste("(", Q6a.3b, "+", Q6a.3c, "+", Q6a.3d, ")/", Q6a.3e, "=", Q6a.3f),
-    paste("(", Q6a.4b, "+", Q6a.4c, "+", Q6a.4d, ")/", Q6a.4e, "=", Q6a.4f),
-    paste("(", Q6a.5b, "+", Q6a.5c, ")/", Q6a.5e, "=", Q6a.5f),
-    paste("(", Q6a.6b, "+", Q6a.6c, ")/", Q6a.6e, "=", Q6a.6f),
-    paste("(", Q6a.7b, "+", Q6a.7c, ")/", Q6a.7e, "=", Q6a.7f),
+    paste0("(", Q6a.2b, " + ", Q6a.2c, " + ", Q6a.2d, ") / ", Q6a.2e, "=", Q6a.2f),
+    paste0("(", Q6a.3b, " + ", Q6a.3c, "+", Q6a.3d, ") / ", Q6a.3e, "=", Q6a.3f),
+    paste0("(", Q6a.4b, " + ", Q6a.4c, "+", Q6a.4d, ") / ", Q6a.4e, "=", Q6a.4f),
+    paste0("(", Q6a.5b, " + ", Q6a.5c, ") / ", Q6a.5e, " = ", Q6a.5f),
+    paste0("(", Q6a.6b, " + ", Q6a.6c, ") / ", Q6a.6e, " = ", Q6a.6f),
+    paste0("(", Q6a.7b, " + ", Q6a.7c, ") / ", Q6a.7e, " = ", Q6a.7f),
     paste(Q6a.2e, "=", Q6a.3e, "=", Q6a.4e, "=", Q6a.5e, "=", Q6a.6e, "=", Q6a.7e, "=", Q6a.8e, "=", q5.1),# All of these would be the same right?
     paste(Q6b.2b, "/", q5.1, "=", Q6b.2c),
     paste(Q6b.3b, "/", q5.1, "=", Q6b.3c),
