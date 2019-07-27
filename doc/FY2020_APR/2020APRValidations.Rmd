@@ -2,8 +2,8 @@
 title: "APR Unit Testing"
 author: "Genelle Denzin"
 date: "7/23/2019"
-output: html_document:
-  keep_md: true
+output: rmarkdown::github_document
+
 ---
 
 ```{r setup, include=FALSE}
