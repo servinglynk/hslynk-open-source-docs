@@ -1,1090 +1,355 @@
-APR Unit Testing
-================
-Genelle Denzin
-7/23/2019
+---
+title: "APR Unit Testing"
+author: "Genelle Denzin"
+date: "7/23/2019"
+output:
+  html_document:
+    keep_md: TRUE
+---
+
+
 
 ## Q5 Report Validations
 
-<!--html_preserve-->
-
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#cikjfclujr .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #000000;
-  font-size: 16px;
-  background-color: #FFFFFF;
-  /* table.background.color */
-  width: auto;
-  /* table.width */
-  border-top-style: solid;
-  /* table.border.top.style */
-  border-top-width: 2px;
-  /* table.border.top.width */
-  border-top-color: #A8A8A8;
-  /* table.border.top.color */
-}
-
-#cikjfclujr .gt_heading {
-  background-color: #FFFFFF;
-  /* heading.background.color */
-  border-bottom-color: #FFFFFF;
-}
-
-#cikjfclujr .gt_title {
-  color: #000000;
-  font-size: 125%;
-  /* heading.title.font.size */
-  padding-top: 4px;
-  /* heading.top.padding */
-  padding-bottom: 1px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#cikjfclujr .gt_subtitle {
-  color: #000000;
-  font-size: 85%;
-  /* heading.subtitle.font.size */
-  padding-top: 1px;
-  padding-bottom: 4px;
-  /* heading.bottom.padding */
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#cikjfclujr .gt_bottom_border {
-  border-bottom-style: solid;
-  /* heading.border.bottom.style */
-  border-bottom-width: 2px;
-  /* heading.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* heading.border.bottom.color */
-}
-
-#cikjfclujr .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#cikjfclujr .gt_col_heading {
-  color: #000000;
-  background-color: #FFFFFF;
-  /* column_labels.background.color */
-  font-size: 16px;
-  /* column_labels.font.size */
-  font-weight: initial;
-  /* column_labels.font.weight */
-  vertical-align: middle;
-  padding: 10px;
-  margin: 10px;
-}
-
-#cikjfclujr .gt_sep_right {
-  border-right: 5px solid #FFFFFF;
-}
-
-#cikjfclujr .gt_group_heading {
-  padding: 8px;
-  color: #000000;
-  background-color: #FFFFFF;
-  /* row_group.background.color */
-  font-size: 16px;
-  /* row_group.font.size */
-  font-weight: initial;
-  /* row_group.font.weight */
-  border-top-style: solid;
-  /* row_group.border.top.style */
-  border-top-width: 2px;
-  /* row_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* row_group.border.top.color */
-  border-bottom-style: solid;
-  /* row_group.border.bottom.style */
-  border-bottom-width: 2px;
-  /* row_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* row_group.border.bottom.color */
-  vertical-align: middle;
-}
-
-#cikjfclujr .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #000000;
-  background-color: #FFFFFF;
-  /* row_group.background.color */
-  font-size: 16px;
-  /* row_group.font.size */
-  font-weight: initial;
-  /* row_group.font.weight */
-  border-top-style: solid;
-  /* row_group.border.top.style */
-  border-top-width: 2px;
-  /* row_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* row_group.border.top.color */
-  border-bottom-style: solid;
-  /* row_group.border.bottom.style */
-  border-bottom-width: 2px;
-  /* row_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* row_group.border.bottom.color */
-  vertical-align: middle;
-}
-
-#cikjfclujr .gt_striped {
-  background-color: #f2f2f2;
-}
-
-#cikjfclujr .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#cikjfclujr .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#cikjfclujr .gt_row {
-  padding: 10px;
-  /* row.padding */
-  margin: 10px;
-  vertical-align: middle;
-}
-
-#cikjfclujr .gt_stub {
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #A8A8A8;
-  padding-left: 12px;
-}
-
-#cikjfclujr .gt_stub.gt_row {
-  background-color: #FFFFFF;
-}
-
-#cikjfclujr .gt_summary_row {
-  background-color: #FFFFFF;
-  /* summary_row.background.color */
-  padding: 6px;
-  /* summary_row.padding */
-  text-transform: inherit;
-  /* summary_row.text_transform */
-}
-
-#cikjfclujr .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-}
-
-#cikjfclujr .gt_table_body {
-  border-top-style: solid;
-  /* table_body.border.top.style */
-  border-top-width: 2px;
-  /* table_body.border.top.width */
-  border-top-color: #A8A8A8;
-  /* table_body.border.top.color */
-  border-bottom-style: solid;
-  /* table_body.border.bottom.style */
-  border-bottom-width: 2px;
-  /* table_body.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* table_body.border.bottom.color */
-}
-
-#cikjfclujr .gt_footnote {
-  font-size: 90%;
-  /* footnote.font.size */
-  padding: 4px;
-  /* footnote.padding */
-}
-
-#cikjfclujr .gt_sourcenote {
-  font-size: 90%;
-  /* sourcenote.font.size */
-  padding: 4px;
-  /* sourcenote.padding */
-}
 
-#cikjfclujr .gt_center {
-  text-align: center;
-}
+--------------------------------
+               Q5               
+--------------------------------
+ Total number of persons served 
+ >= Number of adults (age 18 or 
+             over)              
 
-#cikjfclujr .gt_left {
-  text-align: left;
-}
+ Total number of persons served 
+  >= Number of children (under  
+            age 18)             
+
+ Total number of persons served 
+   >= Number of persons with    
+          unknown age           
+
+ Total number of persons served 
+      >= Number of leavers      
+
+ Total number of persons served 
+   >= Number of adult leavers   
+
+ Total number of persons served 
+ >= Number of adult and head of 
+       household leavers        
+
+ Total number of persons served 
+      >= Number of stayers      
+
+ Total number of persons served 
+   >= Number of adult stayers   
+
+ Total number of persons served 
+     >= Number of veterans      
+
+ Total number of persons served 
+    >= Number of chronically    
+        homeless persons        
+
+ Total number of persons served 
+  >= Number of youth under age  
+               25               
+
+ Total number of persons served 
+  >= Number of parenting youth  
+   under age 25 with children   
+
+ Total number of persons served 
+  >= Number of adults heads of  
+           household            
+
+ Total number of persons served 
+     >= Number of child and     
+ unknown-age heads of household 
+
+ Total number of persons served 
+   >= Heads of households and   
+  adult stayers in the project  
+        365 days or more        
+
+  Number of adults (age 18 or   
+   over) + Number of children   
+   (under age 18) + Number of   
+   persons with unknown age =   
+ Total number of persons served 
+
+  Number of youth under age 25  
+  >= Number of parenting youth  
+   under age 25 with children   
+--------------------------------
+
+
+## Q6 
+
+
+--------------------------------
+               Q6               
+--------------------------------
+ Name (3.01) Client DKR + Name  
+  (3.01) Information Missing +  
+   Name (3.01) Data Issues <=   
+       Name (3.01) Total        
+
+  SSN (3.02) Client DKR + SSN   
+  (3.02) Information Missing +  
+ SSN (3.02) Data Issues <= SSN  
+          (3.02) Total          
+
+  Date of Birth (3.03) Client   
+   DKR + Date of Birth (3.03)   
+ Information Missing + Date of  
+  Birth (3.03) Data Issues <=   
+   Date of Birth (3.03) Total   
+
+ Race (3.04) Client DKR + Race  
+ (3.04) Information Missing <=  
+       Race (3.04) Total        
+
+ Ethnicity (3.05) Client DKR +  
+  Ethnicity (3.05) Information  
+  Missing <= Ethnicity (3.05)   
+             Total              
+
+   Gender (3.06) Client DKR +   
+   Gender (3.06) Information    
+ Missing <= Gender (3.06) Total 
+
+   ( Name (3.01) Client DKR +   
+    Name (3.01) Information     
+   Missing + Name (3.01) Data   
+ Issues )/ Name (3.01) Total =  
+     Name (3.01) Error Rate     
+
+ ( SSN (3.02) Client DKR + SSN  
+  (3.02) Information Missing +  
+ SSN (3.02) Data Issues )/ SSN  
+   (3.02) Total = SSN (3.02)    
+           Error Rate           
+
+ ( Date of Birth (3.03) Client  
+   DKR + Date of Birth (3.03)   
+ Information Missing + Date of  
+  Birth (3.03) Data Issues )/   
+  Date of Birth (3.03) Total =  
+   Date of Birth (3.03) Error   
+              Rate              
+
+   ( Race (3.04) Client DKR +   
+    Race (3.04) Information     
+ Missing )/ Race (3.04) Total = 
+     Race (3.04) Error Rate     
+
+ ( Ethnicity (3.05) Client DKR  
+ + Ethnicity (3.05) Information 
+  Missing )/ Ethnicity (3.05)   
+ Total = Ethnicity (3.05) Error 
+              Rate              
+
+  ( Gender (3.06) Client DKR +  
+   Gender (3.06) Information    
+ Missing )/ Gender (3.06) Total 
+   = Gender (3.06) Error Rate   
+
+ Name (3.01) Total = SSN (3.02) 
+  Total = Date of Birth (3.03)  
+  Total = Race (3.04) Total =   
+    Ethnicity (3.05) Total =    
+ Gender (3.06) Total = Overall  
+ Score Total = Total number of  
+         persons served         
+
+  Veteran Status (3.07) Error   
+    Count / Total number of     
+    persons served = Veteran    
+    Status (3.07) Error Rate    
+
+   Project Start Date (3.10)    
+ Error Count / Total number of  
+ persons served = Project Start 
+     Date (3.10) Error Rate     
+
+    Relationship to Head of     
+ Household (3.15) Error Count / 
+ Total number of persons served 
+   = Relationship to Head of    
+  Household (3.15) Error Rate   
+
+  Client Location (3.16) Error  
+    Count / Total number of     
+    persons served = Client     
+   Location (3.16) Error Rate   
+
+   Disabling Condition (3.08)   
+ Error Count / Total number of  
+   persons served = Disabling   
+  Condition (3.08) Error Rate   
+
+ Destination (3.12) Error Count 
+   / Total number of persons    
+  served = Destination (3.12)   
+           Error Rate           
+
+  Income and Sources (4.02) at  
+   Start Error Count / Total    
+   number of persons served =   
+  Income and Sources (4.02) at  
+        Start Error Rate        
 
-#cikjfclujr .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
+  Income and Sources (4.02) at  
+ Annual Assessment Error Count  
+   / Total number of persons    
+  served = Income and Sources   
+  (4.02) at Annual Assessment   
+           Error Rate           
 
-#cikjfclujr .gt_font_normal {
-  font-weight: normal;
-}
+  Income and Sources (4.02) at  
+    Exit Error Count / Total    
+   number of persons served =   
+  Income and Sources (4.02) at  
+        Exit Error Rate         
 
-#cikjfclujr .gt_font_bold {
-  font-weight: bold;
-}
+    ES, SH, OUT Approx Date     
+  (3.917.3) DKR/Missing + ES,   
+    SH, OUT Number of Times     
+  (3.917.4) DKR/Missing + ES,   
+    SH, OUT Number of Months    
+  (3.917.5) DKR/Missing / ES,   
+  SH, OUT Total Records = ES,   
+  SH, OUT % Records Unable to   
+           Calculate            
 
-#cikjfclujr .gt_font_italic {
-  font-style: italic;
-}
+ TH Missing Time in Institution 
+ (3.917.2) + TH missing time in 
+ housing (3.917.2) DKR/Missing  
+   + TH Approx Date (3.917.3)   
+   DKR/Missing + TH Number of   
+ Times (3.917.4) DKR/Missing +  
+ TH Number of Months (3.917.5)  
+ DKR/Missing / TH Total Records 
+    = TH % Records Unable to    
+           Calculate            
 
-#cikjfclujr .gt_super {
-  font-size: 65%;
-}
+ PH Missing Time in Institution 
+ (3.917.2) + PH missing time in 
+ housing (3.917.2) DKR/Missing  
+   + PH Approx Date (3.917.3)   
+   DKR/Missing + PH Number of   
+ Times (3.917.4) DKR/Missing +  
+ PH Number of Months (3.917.5)  
+ DKR/Missing / PH Total Records 
+    = PH % Records Unable to    
+           Calculate            
 
-#cikjfclujr .gt_footnote_glyph {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
+ ES, SH, OUT Total Records + TH 
+    Total Records + PH Total    
+    Records = Total Records     
 
-<div id="cikjfclujr" style="overflow-x:auto;">
+ 0 days Project Exit + 1-3 days 
+    Project Exit + 4-6 days     
+    Project Exit + 7-10 days    
+    Project Exit + 11+ days     
+ Project Exit = Number of adult 
+            leavers             
 
-<!--gt table start-->
+  Contact (Adults & HoH in OUT  
+ or ES-NBN) Inactive Records /  
+  Contact (Adults & HoH in OUT  
+   or ES-NBN) Total Records =   
+  Contact (Adults & HoH in OUT  
+     or ES-NBN) % Inactive      
 
-<table class="gt_table">
+   Bed Night (All clients in    
+ ES-NBN) Inactive Records / Bed 
+ Night (All clients in ES-NBN)  
+ Total Records = Bed Night (All 
+ clients in ES-NBN) % Inactive  
+--------------------------------
 
-<tr>
 
-<th class="gt_col_heading gt_left" rowspan="1" colspan="1">
+## Q7 
 
-Q5
 
-</th>
 
-</tr>
 
-<tbody class="gt_table_body">
+## Q8 
 
-<tr>
 
-<td class="gt_row gt_left">
 
-Total number of persons served \>= Number of adults (age 18 or over)
 
-</td>
+## Q9 
 
-</tr>
 
-<tr>
 
-<td class="gt_row gt_left gt_striped">
 
-Total number of persons served \>= Number of children (under age 18)
+## Q10 
 
-</td>
 
-</tr>
 
-<tr>
 
-<td class="gt_row gt_left">
+## Q11 
 
-Total number of persons served \>= Number of persons with unknown age
 
-</td>
 
-</tr>
 
-<tr>
+## Q12 
 
-<td class="gt_row gt_left gt_striped">
 
-Total number of persons served \>= Number of leavers
 
-</td>
 
-</tr>
+## Q13 
 
-<tr>
 
-<td class="gt_row gt_left">
 
-Total number of persons served \>= Number of adult leavers
 
-</td>
+## Q14 
 
-</tr>
 
-<tr>
 
-<td class="gt_row gt_left gt_striped">
 
-Total number of persons served \>= Number of adult and head of household
-leavers
+## Q15 
 
-</td>
 
-</tr>
 
-<tr>
 
-<td class="gt_row gt_left">
+## Q16 
 
-Total number of persons served \>= Number of stayers
 
-</td>
 
-</tr>
 
-<tr>
+## Q17 
 
-<td class="gt_row gt_left gt_striped">
 
-Total number of persons served \>= Number of adult stayers
 
-</td>
 
-</tr>
+## Q18 
 
-<tr>
 
-<td class="gt_row gt_left">
 
-Total number of persons served \>= Number of veterans
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Total number of persons served \>= Number of chronically homeless
-persons
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Total number of persons served \>= Number of youth under age 25
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Total number of persons served \>= Number of parenting youth under age
-25 with children
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Total number of persons served \>= Number of adults heads of household
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Total number of persons served \>= Number of child and unknown-age heads
-of household
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Total number of persons served \>= Heads of households and adult stayers
-in the project 365 days or more
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Number of adults (age 18 or over) + Number of children (under age 18) +
-Number of persons with unknown age = Total number of persons served
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Number of youth under age 25 \>= Number of parenting youth under age 25
-with children
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-<!--gt table end-->
-
-</div>
-
-<!--/html_preserve-->
-
-## Q6
-
-<!--html_preserve-->
-
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#tretrtqgqz .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #000000;
-  font-size: 16px;
-  background-color: #FFFFFF;
-  /* table.background.color */
-  width: auto;
-  /* table.width */
-  border-top-style: solid;
-  /* table.border.top.style */
-  border-top-width: 2px;
-  /* table.border.top.width */
-  border-top-color: #A8A8A8;
-  /* table.border.top.color */
-}
-
-#tretrtqgqz .gt_heading {
-  background-color: #FFFFFF;
-  /* heading.background.color */
-  border-bottom-color: #FFFFFF;
-}
-
-#tretrtqgqz .gt_title {
-  color: #000000;
-  font-size: 125%;
-  /* heading.title.font.size */
-  padding-top: 4px;
-  /* heading.top.padding */
-  padding-bottom: 1px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#tretrtqgqz .gt_subtitle {
-  color: #000000;
-  font-size: 85%;
-  /* heading.subtitle.font.size */
-  padding-top: 1px;
-  padding-bottom: 4px;
-  /* heading.bottom.padding */
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#tretrtqgqz .gt_bottom_border {
-  border-bottom-style: solid;
-  /* heading.border.bottom.style */
-  border-bottom-width: 2px;
-  /* heading.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* heading.border.bottom.color */
-}
-
-#tretrtqgqz .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#tretrtqgqz .gt_col_heading {
-  color: #000000;
-  background-color: #FFFFFF;
-  /* column_labels.background.color */
-  font-size: 16px;
-  /* column_labels.font.size */
-  font-weight: initial;
-  /* column_labels.font.weight */
-  vertical-align: middle;
-  padding: 10px;
-  margin: 10px;
-}
-
-#tretrtqgqz .gt_sep_right {
-  border-right: 5px solid #FFFFFF;
-}
-
-#tretrtqgqz .gt_group_heading {
-  padding: 8px;
-  color: #000000;
-  background-color: #FFFFFF;
-  /* row_group.background.color */
-  font-size: 16px;
-  /* row_group.font.size */
-  font-weight: initial;
-  /* row_group.font.weight */
-  border-top-style: solid;
-  /* row_group.border.top.style */
-  border-top-width: 2px;
-  /* row_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* row_group.border.top.color */
-  border-bottom-style: solid;
-  /* row_group.border.bottom.style */
-  border-bottom-width: 2px;
-  /* row_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* row_group.border.bottom.color */
-  vertical-align: middle;
-}
-
-#tretrtqgqz .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #000000;
-  background-color: #FFFFFF;
-  /* row_group.background.color */
-  font-size: 16px;
-  /* row_group.font.size */
-  font-weight: initial;
-  /* row_group.font.weight */
-  border-top-style: solid;
-  /* row_group.border.top.style */
-  border-top-width: 2px;
-  /* row_group.border.top.width */
-  border-top-color: #A8A8A8;
-  /* row_group.border.top.color */
-  border-bottom-style: solid;
-  /* row_group.border.bottom.style */
-  border-bottom-width: 2px;
-  /* row_group.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* row_group.border.bottom.color */
-  vertical-align: middle;
-}
-
-#tretrtqgqz .gt_striped {
-  background-color: #f2f2f2;
-}
-
-#tretrtqgqz .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#tretrtqgqz .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#tretrtqgqz .gt_row {
-  padding: 10px;
-  /* row.padding */
-  margin: 10px;
-  vertical-align: middle;
-}
-
-#tretrtqgqz .gt_stub {
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #A8A8A8;
-  padding-left: 12px;
-}
-
-#tretrtqgqz .gt_stub.gt_row {
-  background-color: #FFFFFF;
-}
-
-#tretrtqgqz .gt_summary_row {
-  background-color: #FFFFFF;
-  /* summary_row.background.color */
-  padding: 6px;
-  /* summary_row.padding */
-  text-transform: inherit;
-  /* summary_row.text_transform */
-}
-
-#tretrtqgqz .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-}
-
-#tretrtqgqz .gt_table_body {
-  border-top-style: solid;
-  /* table_body.border.top.style */
-  border-top-width: 2px;
-  /* table_body.border.top.width */
-  border-top-color: #A8A8A8;
-  /* table_body.border.top.color */
-  border-bottom-style: solid;
-  /* table_body.border.bottom.style */
-  border-bottom-width: 2px;
-  /* table_body.border.bottom.width */
-  border-bottom-color: #A8A8A8;
-  /* table_body.border.bottom.color */
-}
-
-#tretrtqgqz .gt_footnote {
-  font-size: 90%;
-  /* footnote.font.size */
-  padding: 4px;
-  /* footnote.padding */
-}
-
-#tretrtqgqz .gt_sourcenote {
-  font-size: 90%;
-  /* sourcenote.font.size */
-  padding: 4px;
-  /* sourcenote.padding */
-}
-
-#tretrtqgqz .gt_center {
-  text-align: center;
-}
-
-#tretrtqgqz .gt_left {
-  text-align: left;
-}
-
-#tretrtqgqz .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#tretrtqgqz .gt_font_normal {
-  font-weight: normal;
-}
-
-#tretrtqgqz .gt_font_bold {
-  font-weight: bold;
-}
-
-#tretrtqgqz .gt_font_italic {
-  font-style: italic;
-}
-
-#tretrtqgqz .gt_super {
-  font-size: 65%;
-}
-
-#tretrtqgqz .gt_footnote_glyph {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-
-<div id="tretrtqgqz" style="overflow-x:auto;">
-
-<!--gt table start-->
-
-<table class="gt_table">
-
-<tr>
-
-<th class="gt_col_heading gt_left" rowspan="1" colspan="1">
-
-Q6
-
-</th>
-
-</tr>
-
-<tbody class="gt_table_body">
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Name (3.01) Client DKR + Name (3.01) Information Missing + Name (3.01)
-Data Issues \<= Name (3.01) Total
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-SSN (3.02) Client DKR + SSN (3.02) Information Missing + SSN (3.02) Data
-Issues \<= SSN (3.02) Total
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Date of Birth (3.03) Client DKR + Date of Birth (3.03) Information
-Missing + Date of Birth (3.03) Data Issues \<= Date of Birth (3.03)
-Total
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Race (3.04) Client DKR + Race (3.04) Information Missing \<= Race (3.04)
-Total
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Ethnicity (3.05) Client DKR + Ethnicity (3.05) Information Missing \<=
-Ethnicity (3.05) Total
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Gender (3.06) Client DKR + Gender (3.06) Information Missing \<= Gender
-(3.06) Total
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-( Name (3.01) Client DKR + Name (3.01) Information Missing + Name (3.01)
-Data Issues )/ Name (3.01) Total = Name (3.01) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-( SSN (3.02) Client DKR + SSN (3.02) Information Missing + SSN (3.02)
-Data Issues )/ SSN (3.02) Total = SSN (3.02) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-( Date of Birth (3.03) Client DKR + Date of Birth (3.03) Information
-Missing + Date of Birth (3.03) Data Issues )/ Date of Birth (3.03) Total
-= Date of Birth (3.03) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-( Race (3.04) Client DKR + Race (3.04) Information Missing )/ Race
-(3.04) Total = Race (3.04) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-( Ethnicity (3.05) Client DKR + Ethnicity (3.05) Information Missing )/
-Ethnicity (3.05) Total = Ethnicity (3.05) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-( Gender (3.06) Client DKR + Gender (3.06) Information Missing )/ Gender
-(3.06) Total = Gender (3.06) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Name (3.01) Total = SSN (3.02) Total = Date of Birth (3.03) Total = Race
-(3.04) Total = Ethnicity (3.05) Total = Gender (3.06) Total = Overall
-Score Total = Total number of persons served
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Veteran Status (3.07) Error Count / Total number of persons served =
-Veteran Status (3.07) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Project Start Date (3.10) Error Count / Total number of persons served =
-Project Start Date (3.10) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Relationship to Head of Household (3.15) Error Count / Total number of
-persons served = Relationship to Head of Household (3.15) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Client Location (3.16) Error Count / Total number of persons served =
-Client Location (3.16) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Disabling Condition (3.08) Error Count / Total number of persons served
-= Disabling Condition (3.08) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Destination (3.12) Error Count / Total number of persons served =
-Destination (3.12) Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Income and Sources (4.02) at Start Error Count / Total number of persons
-served = Income and Sources (4.02) at Start Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Income and Sources (4.02) at Annual Assessment Error Count / Total
-number of persons served = Income and Sources (4.02) at Annual
-Assessment Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Income and Sources (4.02) at Exit Error Count / Total number of persons
-served = Income and Sources (4.02) at Exit Error Rate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-ES, SH, OUT Approx Date (3.917.3) DKR/Missing + ES, SH, OUT Number of
-Times (3.917.4) DKR/Missing + ES, SH, OUT Number of Months (3.917.5)
-DKR/Missing / ES, SH, OUT Total Records = ES, SH, OUT % Records Unable
-to Calculate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-TH Missing Time in Institution (3.917.2) + TH missing time in housing
-(3.917.2) DKR/Missing + TH Approx Date (3.917.3) DKR/Missing + TH Number
-of Times (3.917.4) DKR/Missing + TH Number of Months (3.917.5)
-DKR/Missing / TH Total Records = TH % Records Unable to Calculate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-PH Missing Time in Institution (3.917.2) + PH missing time in housing
-(3.917.2) DKR/Missing + PH Approx Date (3.917.3) DKR/Missing + PH Number
-of Times (3.917.4) DKR/Missing + PH Number of Months (3.917.5)
-DKR/Missing / PH Total Records = PH % Records Unable to Calculate
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-ES, SH, OUT Total Records + TH Total Records + PH Total Records = Total
-Records
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-0 days Project Exit + 1-3 days Project Exit + 4-6 days Project Exit +
-7-10 days Project Exit + 11+ days Project Exit = Number of adult leavers
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left gt_striped">
-
-Contact (Adults & HoH in OUT or ES-NBN) Inactive Records / Contact
-(Adults & HoH in OUT or ES-NBN) Total Records = Contact (Adults & HoH in
-OUT or ES-NBN) % Inactive
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-Bed Night (All clients in ES-NBN) Inactive Records / Bed Night (All
-clients in ES-NBN) Total Records = Bed Night (All clients in ES-NBN) %
-Inactive
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-<!--gt table end-->
-
-</div>
-
-<!--/html_preserve-->
-
-## Q7
-
-## Q8
-
-## Q9
-
-## Q10
-
-## Q11
-
-## Q12
-
-## Q13
-
-## Q14
-
-## Q15
-
-## Q16
-
-## Q17
-
-## Q18
 
 ## Q19
 
-## Q20
 
-## Q21
+
+
+## Q20 
+
+
+
+
+## Q21 
+
+
+
+
+
+
+
+
+
+
+
+

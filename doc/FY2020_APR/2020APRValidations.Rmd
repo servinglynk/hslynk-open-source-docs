@@ -2,13 +2,14 @@
 title: "APR Unit Testing"
 author: "Genelle Denzin"
 date: "7/23/2019"
-output: rmarkdown::github_document
-
+output:
+  html_document:
+    keep_md: TRUE
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(gt)
+library(pander)
 ```
 
 ## Q5 Report Validations
@@ -56,9 +57,7 @@ Q5 <- as.data.frame(
 
 colnames(Q5) <- "Q5"
 
-gt(Q5) %>%
-  cols_align(
-    align = "left")
+pander(Q5)
 
 ```
 
@@ -194,7 +193,7 @@ Q6 <- as.data.frame(
 
 colnames(Q6) <- "Q6"
 
-gt(Q6) %>% cols_align(align = "left")
+pander(Q6)
 
 ```
 
