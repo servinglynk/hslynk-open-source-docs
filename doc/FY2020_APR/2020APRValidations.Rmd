@@ -2,12 +2,13 @@
 title: "APR Unit Testing"
 author: "Genelle Denzin"
 date: "7/23/2019"
-output: html_document
+output:
+  md_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
-library(gt)
+library(pander)
 ```
 
 ## Q5 Report Validations
@@ -55,9 +56,7 @@ Q5 <- as.data.frame(
 
 colnames(Q5) <- "Q5"
 
-gt(Q5) %>%
-  cols_align(
-    align = "left")
+pander(Q5)
 
 ```
 
@@ -106,13 +105,94 @@ Q6b.5c <- "Client Location (3.16) Error Rate"
 Q6b.6b <- "Disabling Condition (3.08) Error Count"
 Q6b.6c <- "Disabling Condition (3.08) Error Rate"
 
-Q6c.2 <- "Destination (3.12)"
-Q6c.3 <- "Income and Sources (4.02) at Start"
-Q6c.4 <- "Income and Sources (4.02) at Annual Assessment"
-Q6c.5 <- "Income and Sources (4.02) at Exit"
+Q6c.2b <- "Destination (3.12) Error Count"
+Q6c.2c <- "Destination (3.12) Error Rate"
+Q6c.3b <- "Income and Sources (4.02) at Start Error Count"
+Q6c.3c <- "Income and Sources (4.02) at Start Error Rate"
+Q6c.4b <- "Income and Sources (4.02) at Annual Assessment Error Count"
+Q6c.4c <- "Income and Sources (4.02) at Annual Assessment Error Rate"
+Q6c.5b <- "Income and Sources (4.02) at Exit Error Count"
+Q6c.5c <- "Income and Sources (4.02) at Exit Error Rate"
 
+Q6d.2b <- "ES, SH, OUT Total Records"
+Q6d.2e <- "ES, SH, OUT Approx Date (3.917.3) DKR/Missing"
+Q6d.2f <- "ES, SH, OUT Number of Times (3.917.4) DKR/Missing"
+Q6d.2g <- "ES, SH, OUT Number of Months (3.917.5) DKR/Missing"
+Q6d.2h <- "ES, SH, OUT % Records Unable to Calculate"
 
+Q6d.3b <- "TH Total Records"
+Q6d.3c <- "TH Missing Time in Institution (3.917.2)"
+Q6d.3d <- "TH missing time in housing (3.917.2) DKR/Missing"
+Q6d.3e <- "TH Approx Date (3.917.3) DKR/Missing"
+Q6d.3f <- "TH Number of Times (3.917.4) DKR/Missing"
+Q6d.3g <- "TH Number of Months (3.917.5) DKR/Missing"
+Q6d.3h <- "TH % Records Unable to Calculate"
 
+Q6d.4b <- "PH Total Records"
+Q6d.4c <- "PH Missing Time in Institution (3.917.2)"
+Q6d.4d <- "PH missing time in housing (3.917.2) DKR/Missing"
+Q6d.4e <- "PH Approx Date (3.917.3) DKR/Missing"
+Q6d.4f <- "PH Number of Times (3.917.4) DKR/Missing"
+Q6d.4g <- "PH Number of Months (3.917.5) DKR/Missing"
+Q6d.4h <- "PH % Records Unable to Calculate"
+
+Q6d.5b <- "Total Records"
+Q6d.5h <- "% Records Unable to Calculate"
+
+Q6e.2b <- "0 days Project Start"
+Q6e.2c <- "0 days Project Exit"
+Q6e.3b <- "1-3 days Project Start"
+Q6e.3c <- "1-3 days Project Exit"
+Q6e.4b <- "4-6 days Project Start"
+Q6e.4c <- "4-6 days Project Exit"
+Q6e.5b <- "7-10 days Project Start"
+Q6e.5c <- "7-10 days Project Exit"
+Q6e.6b <- "11+ days Project Start"
+Q6e.6c <- "11+ days Project Exit"
+
+Q6f.2b <- "Contact (Adults & HoH in OUT or ES-NBN) Total Records"
+Q6f.2c <- "Contact (Adults & HoH in OUT or ES-NBN) Inactive Records"
+Q6f.2d <- "Contact (Adults & HoH in OUT or ES-NBN) % Inactive"
+Q6f.3b <- "Bed Night (All clients in ES-NBN) Total Records"
+Q6f.3c <- "Bed Night (All clients in ES-NBN) Inactive Records"
+Q6f.3d <- "Bed Night (All clients in ES-NBN) % Inactive"
+
+Q6 <- as.data.frame(
+  c(
+    paste(Q6a.2b, "+", Q6a.2c, "+", Q6a.2d, "<=", Q6a.2e),
+    paste(Q6a.3b, "+", Q6a.3c, "+", Q6a.3d, "<=", Q6a.3e),
+    paste(Q6a.4b, "+", Q6a.4c, "+", Q6a.4d, "<=", Q6a.4e),
+    paste(Q6a.5b, "+", Q6a.5c, "<=", Q6a.5e),
+    paste(Q6a.6b, "+", Q6a.6c, "<=", Q6a.6e),
+    paste(Q6a.7b, "+", Q6a.7c, "<=", Q6a.7e),
+    paste0("(", Q6a.2b, " + ", Q6a.2c, " + ", Q6a.2d, ") / ", Q6a.2e, "=", Q6a.2f),
+    paste0("(", Q6a.3b, " + ", Q6a.3c, "+", Q6a.3d, ") / ", Q6a.3e, "=", Q6a.3f),
+    paste0("(", Q6a.4b, " + ", Q6a.4c, "+", Q6a.4d, ") / ", Q6a.4e, "=", Q6a.4f),
+    paste0("(", Q6a.5b, " + ", Q6a.5c, ") / ", Q6a.5e, " = ", Q6a.5f),
+    paste0("(", Q6a.6b, " + ", Q6a.6c, ") / ", Q6a.6e, " = ", Q6a.6f),
+    paste0("(", Q6a.7b, " + ", Q6a.7c, ") / ", Q6a.7e, " = ", Q6a.7f),
+    paste(Q6a.2e, "=", Q6a.3e, "=", Q6a.4e, "=", Q6a.5e, "=", Q6a.6e, "=", Q6a.7e, "=", Q6a.8e, "=", q5.1),# All of these would be the same right?
+    paste(Q6b.2b, "/", q5.1, "=", Q6b.2c),
+    paste(Q6b.3b, "/", q5.1, "=", Q6b.3c),
+    paste(Q6b.4b, "/", q5.1, "=", Q6b.4c),
+    paste(Q6b.5b, "/", q5.1, "=", Q6b.5c),
+    paste(Q6b.6b, "/", q5.1, "=", Q6b.6c),
+    paste(Q6c.2b, "/", q5.1, "=", Q6c.2c),
+    paste(Q6c.3b, "/", q5.1, "=", Q6c.3c),
+    paste(Q6c.4b, "/", q5.1, "=", Q6c.4c),
+    paste(Q6c.5b, "/", q5.1, "=", Q6c.5c),
+    paste(Q6d.2e, "+", Q6d.2f, "+", Q6d.2g, "/", Q6d.2b, "=", Q6d.2h),
+    paste(Q6d.3c, "+", Q6d.3d, "+", Q6d.3e, "+", Q6d.3f, "+", Q6d.3g, "/", Q6d.3b, "=", Q6d.3h),
+    paste(Q6d.4c, "+", Q6d.4d, "+", Q6d.4e, "+", Q6d.4f, "+", Q6d.4g, "/", Q6d.4b, "=", Q6d.4h),
+    paste(Q6d.2b, "+", Q6d.3b, "+", Q6d.4b, "=", Q6d.5b),
+    paste(Q6e.2c, "+", Q6e.3c, "+", Q6e.4c, "+", Q6e.5c, "+", Q6e.6c, "=", q5.6),
+    paste(Q6f.2c, "/", Q6f.2b, "=", Q6f.2d),
+    paste(Q6f.3c, "/", Q6f.3b, "=", Q6f.3d)
+    ))
+
+colnames(Q6) <- "Q6"
+
+pander(Q6)
 
 ```
 
