@@ -11,4 +11,4 @@ Wiki, code, and documentation for the Coordinated Entry System (CES) components 
 
 For discussion of the HMIS API, please see the [HMIS API Discussion Group](https://groups.google.com/forum/#!forum/hmis-api).  Please note that that discussion group is vendor-neutral: it is for discussing requests, responses, and endpoints, not specific products or business goals.
 
-For full API documentation, please see [the reference](https://docs.hslynk.com).  API markup repositories are [here](https://github.com/hmis-api/).
+For full API documentation, please see https://docs.hslynk.com.  API markup repositories are [here](https://github.com/hmis-api/).
